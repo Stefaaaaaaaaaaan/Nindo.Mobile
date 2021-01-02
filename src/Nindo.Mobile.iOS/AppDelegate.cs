@@ -24,6 +24,10 @@ namespace Nindo.Mobile.iOS
         {
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init();
+
+            Sharpnado.Shades.iOS.iOSShadowsRenderer.Initialize();
+            Sharpnado.Tabs.iOS.Preserver.Preserve();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

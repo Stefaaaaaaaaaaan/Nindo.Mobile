@@ -12,9 +12,10 @@ namespace Nindo.Mobile
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
+
+            Sharpnado.Tabs.Initializer.Initialize(loggerEnable: false, debugLogEnable: false);
+            Sharpnado.Shades.Initializer.Initialize(loggerEnable: false);
         }
 
         protected override void OnStart()

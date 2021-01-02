@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
+             xmlns:views="clr-namespace:Nindo.Mobile.Views;assembly=Nindo.Mobile"
+             xmlns:bindings="clr-namespace:Nindo.Mobile.Services;assembly=Nindo.Mobile"
+             xmlns:tabs="http://sharpnado.com"
+             xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
+             x:Class="Nindo.Mobile.Views.HomePage"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <viewModels:HomeViewModel />
+    </ContentPage.BindingContext>
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SegmentedTabStyle" TargetType="tabs:SegmentedTabItem">
+                <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
+                <Setter Property="LabelSize" Value="14" />
+                <Setter Property="SelectedLabelColor" Value="White" />
+                <Setter Property="UnselectedLabelColor" Value="Gray" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid> 
+            <ScrollView>
+                <StackLayout>
+                    <tabs:ViewSwitcher x:Name="Switcher"
+                                       Padding="0,0,0,0"
+                                       Animate="True"
+                                       SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}">
+                    <views:YoutubeSmallPage/>
+                    <views:InstagramSmallPage/>
+                    <views:TiktokSmallPage/>
+                    <views:TwitterSmallPage/>
+                    <views:TwitchSmallPage/>
+                </tabs:ViewSwitcher>
+                </StackLayout>
+            </ScrollView>
+
+            <tabs:TabHostView x:Name="TabHost"
+                              HeightRequest="40"
+                              Margin="20,15,20,20"
+                              VerticalOptions="End"
+                              BackgroundColor="#F0F0F3"
+                              Shades="{sh:SingleShade Offset='0,8',
+                                            Color={StaticResource Primary},
+                                            BlurRadius=10,
+                                            Opacity=0.2}"
+                              CornerRadius="20"
+                              IsSegmented="True"
+                              SegmentedHasSeparator="True"
+                              SegmentedOutlineColor="{StaticResource Primary}"
+                              TabType="Fixed"
+                              SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}">
+                <tabs:TabHostView.Tabs>
+                    <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="Youtube"/>
+                    <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="Instagram" />
+                    <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="TikTok" />
+                    <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="Twitter" />
+                    <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="Twitch" />
+                </tabs:TabHostView.Tabs>
+            </tabs:TabHostView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

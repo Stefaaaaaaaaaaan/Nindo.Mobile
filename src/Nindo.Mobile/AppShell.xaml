@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:Nindo.Mobile.Views"
+       xmlns:local="clr-namespace:Nindo.Mobile.Views;assembly=Nindo.Mobile"
        Title="Nindo.Mobile"
        x:Class="Nindo.Mobile.AppShell">
-
     <!--
         The overall app visual hierarchy is defined here, along with navigation.
     
@@ -30,17 +29,10 @@
     </Shell.Resources>
 
     <TabBar>
-        <ShellContent Title="About" Icon="icon_about.png" Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
-        <ShellContent Title="Browse" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        <ShellContent Title="Home" Icon="icon_about" Route="AboutPage" ContentTemplate="{DataTemplate local:HomePage}" />
+        <ShellContent Title="Charts" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:HomePage}" />
+        <ShellContent Title="Viral" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:HomePage}" />
+        <ShellContent Title="Rabatt" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:HomePage}" />
+        <ShellContent Title="Meilensteine" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:HomePage}" />
     </TabBar>
-
-    <!--
-        If you would like to navigate to this content you can do so by calling
-        await Shell.Current.GoToAsync("//LoginPage");
-    -->
-    <TabBar>
-        <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
-    </TabBar>
-
-
 </Shell>
