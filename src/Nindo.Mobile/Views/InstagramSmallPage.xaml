@@ -18,7 +18,7 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
-                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
@@ -29,15 +29,13 @@
                                 <StackLayout Grid.Column="0" Grid.Row="1" VerticalOptions="Center">
                                     <BoxView HeightRequest="3" Color="#aa7a50"/>
                                 </StackLayout>
-                                <Label Margin="10,0,0,0"
-                                   Grid.Row="1"
-                                   Grid.Column="1"
-                                   Text="Instagram"
-                                   FontSize="Body"
-                                   FontAttributes="Bold" 
-                                   VerticalTextAlignment="Center"
-                                   TextColor="Black"
-                                   HorizontalTextAlignment="Center"/>
+                                <Image
+                                    Margin="0,0,0,0"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Source="instagram.png"/>
                                 <StackLayout Grid.Column="2" Grid.Row="1" VerticalOptions="Center">
                                     <BoxView HeightRequest="3" Color="#aa7a50"/>
                                 </StackLayout>
