@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:services="clr-namespace:Nindo.Mobile.Services;assembly=Nindo.Mobile"
              xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
+             xmlns:controls="clr-namespace:Nindo.Mobile.Templates;assembly=Nindo.Mobile"
              x:Class="Nindo.Mobile.Views.TwitchSmallPage">
 
     <ContentView.BindingContext>
@@ -93,6 +94,19 @@
                                 </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
+                        <CollectionView.Footer>
+                            <StackLayout>
+                                <Label 
+                                        Padding="0,20,0,80"
+                                        FontSize="Small"
+                                        FontAttributes="Bold"
+                                        Text="Tippe auf einen Künstler um weitere Optionen anzuzeigen"
+                                        TextColor="LightGray"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center"
+                                        />
+                            </StackLayout>
+                        </CollectionView.Footer>
                     </CollectionView>
                 </StackLayout>
             </RefreshView>

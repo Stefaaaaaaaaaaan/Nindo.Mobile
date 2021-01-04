@@ -29,7 +29,6 @@
 
     <ContentPage.Content>
         <Grid> 
-            <ScrollView>
                 <StackLayout>
                     <tabs:ViewSwitcher x:Name="Switcher"
                                        Padding="0,0,0,0"
@@ -42,7 +41,6 @@
                     <views:TwitchSmallPage/>
                 </tabs:ViewSwitcher>
                 </StackLayout>
-            </ScrollView>
 
             <tabs:TabHostView x:Name="TabHost"
                               HeightRequest="40"
