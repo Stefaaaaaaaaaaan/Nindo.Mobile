@@ -93,6 +93,19 @@
                                 </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
+                        <CollectionView.Footer>
+                            <StackLayout>
+                                <Label 
+                                    Padding="0,20,0,80"
+                                    FontSize="Small"
+                                    FontAttributes="Bold"
+                                    Text="Tippe auf einen Künstler um weitere Optionen anzuzeigen"
+                                    TextColor="LightGray"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                />
+                            </StackLayout>
+                        </CollectionView.Footer>
                     </CollectionView>
                 </StackLayout>
             </RefreshView>
