@@ -1,5 +1,4 @@
-﻿using Nindo.Mobile.Models;
-using Nindo.Mobile.Services;
+﻿using Nindo.Mobile.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

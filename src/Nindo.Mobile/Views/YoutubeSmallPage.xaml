@@ -3,112 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
              x:Class="Nindo.Mobile.Views.YoutubeSmallPage"
-             xmlns:bindings="clr-namespace:Nindo.Mobile.Services;assembly=Nindo.Mobile">
+             xmlns:bindings="clr-namespace:Nindo.Mobile.Services;assembly=Nindo.Mobile"
+             xmlns:controls="clr-namespace:Nindo.Mobile.Controls;assembly=Nindo.Mobile">
 
     <ContentView.BindingContext>
         <viewModels:YoutubeSmallViewModel />
     </ContentView.BindingContext>
 
     <ContentView.Content>
-      <Grid>
-            <RefreshView Command="{Binding RefreshCommand}">
-                <StackLayout>
-                    <CollectionView ItemsSource="{Binding Youtube}">
-                        <CollectionView.Header>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <StackLayout Grid.Column="0" Grid.Row="1" VerticalOptions="Center">
-                                    <BoxView HeightRequest="3" Color="#d44141"/>
-                                </StackLayout>
-                                <Image
-                                    Margin="0,0,0,0"
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center"
-                                    Source="youtube.png"/>
-                                <StackLayout Grid.Column="2" Grid.Row="1" VerticalOptions="Center">
-                                    <BoxView HeightRequest="3" Color="#d44141"/>
-                                </StackLayout>
-                            </Grid>
-                        </CollectionView.Header>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Frame BorderColor="#eeeeee" Padding="0" >
-                                    <Grid Padding="0" RowSpacing="0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="80" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.RowSpan="1"
-                                           Source="{Binding Avatar}"
-                                           Aspect="AspectFit"
-                                           HeightRequest="80"/>
-                                        <Label Grid.Row="0"
-                                           Grid.Column="1"
-                                           Text="{Binding RankNumber}"
-                                           TextColor="#8552b4"
-                                           FontSize="25"
-                                           FontAttributes="Bold"
-                                           VerticalTextAlignment="Center"
-                                           HorizontalTextAlignment="Center"/>
-                                        <Label 
-                                           Grid.Row="0"
-                                           Grid.Column="2"
-                                           Text="{Binding ArtistName}"
-                                           FontAttributes="Bold" 
-                                           TextColor="#5a5a5a"
-                                           VerticalTextAlignment="Center"/>
-                                        <Label 
-                                        Grid.Row="0"
-                                        Grid.Column="3"
-                                        TextColor="#ababab"
-                                        VerticalTextAlignment="Center"
-                                        HorizontalTextAlignment="End"
-                                        Padding="0,0,20,0">
-                                            <Label.Text>
-                                                <Binding>
-                                                    <Binding.Converter>
-                                                        <bindings:ValueFormatConverter/>
-                                                    </Binding.Converter>
-                                                </Binding>
-                                            </Label.Text>
-                                        </Label>
-                                    </Grid>
-                                </Frame>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                        <CollectionView.Footer>
-                            <StackLayout>
-                                <Label 
-                                        Padding="0,20,0,80"
-                                        FontSize="Small"
-                                        FontAttributes="Bold"
-                                        Text="Tippe auf einen Künstler um weitere Optionen anzuzeigen"
-                                        TextColor="LightGray"
-                                        HorizontalTextAlignment="Center"
-                                        VerticalTextAlignment="Center"
-                                        />
-                            </StackLayout>
-                        </CollectionView.Footer>
-                    </CollectionView>
-                </StackLayout>
-            </RefreshView>
-        </Grid>
-  </ContentView.Content>
+        <controls:ScoreboardSmallTemplate 
+            CollectionViewScoreboard="{Binding Youtube}"
+            BoxViewLeftColor="#d44141"
+            BoxViewRightColor="#d44141"
+            ImageSource="youtube.png"
+            RefreshViewCommand="{Binding RefreshCommand}"
+            LabelText="Ø Views nach 5 Tagen"/>
+    </ContentView.Content>
 </ContentView>
