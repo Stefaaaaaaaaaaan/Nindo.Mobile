@@ -34,11 +34,22 @@
                                        Padding="0,0,0,0"
                                        Animate="True"
                                        SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}">
-                    <views:YoutubeSmallPage/>
+                    <tabs:LazyView x:TypeArguments="views:YoutubeSmallPage"
+                                   BindingContext="{Binding YoutubeViewModel}"/>
+                    <tabs:LazyView x:TypeArguments="views:InstagramSmallPage"
+                                   BindingContext="{Binding InstagramViewModel}"/>
+                    <tabs:LazyView x:TypeArguments="views:TiktokSmallPage"
+                                   BindingContext="{Binding TiktokViewModel}"/>
+                    <tabs:LazyView x:TypeArguments="views:TwitterSmallPage"
+                                   BindingContext="{Binding TwitterViewModel}"/>
+                    <tabs:LazyView x:TypeArguments="views:TwitchSmallPage"
+                                   BindingContext="{Binding TwitchViewModel}"/>
+
+                    <!--<views:YoutubeSmallPage/>
                     <views:InstagramSmallPage/>
                     <views:TiktokSmallPage/>
                     <views:TwitterSmallPage/>
-                    <views:TwitchSmallPage/>
+                    <views:TwitchSmallPage/>-->
                 </tabs:ViewSwitcher>
                 </StackLayout>
 
