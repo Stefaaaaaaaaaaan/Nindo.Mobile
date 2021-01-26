@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace Nindo.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ChartsPage : ContentPage
+    public partial class YoutubeBigPage : ContentView
     {
-        public ChartsPage()
+        public YoutubeBigPage()
         {
             InitializeComponent();
         }
