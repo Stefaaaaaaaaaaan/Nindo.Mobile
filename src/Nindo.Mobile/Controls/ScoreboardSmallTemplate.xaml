@@ -5,11 +5,6 @@
              xmlns:system="clr-namespace:System;assembly=netstandard"
              x:Class="Nindo.Mobile.Controls.ScoreboardSmallTemplate">
 
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <services:ShowChannelNameBoolConverter x:Key="stringNullOrEmptyBoolConverter" />
-        </ResourceDictionary>
-    </ContentView.Resources>
 
     <ContentView.Content>
       <RefreshView x:Name="InnerRefreshView">

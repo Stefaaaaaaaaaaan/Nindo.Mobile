@@ -6,7 +6,7 @@ namespace Nindo.Mobile.ViewModels
     {
         public ChartsViewModel()
         {
-            Title = "Nino";
+            Title = "Nindo";
             YoutubeViewModel = new YoutubeBigViewModel();
             InstagramViewModel = new InstagraBigViewModel();
             TiktokViewModel = new TiktokBigViewModel();

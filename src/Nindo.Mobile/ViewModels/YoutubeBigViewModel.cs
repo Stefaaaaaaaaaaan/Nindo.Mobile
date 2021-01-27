@@ -89,7 +89,7 @@ namespace Nindo.Mobile.ViewModels
                     Items.ReplaceRange(await Task.Run(() => client.GetSubGainScoreboardAsync(RankAllPlatform.Youtube, Size.Big)));
                     break;
                 case "Abos":
-                    Items.ReplaceRange(await Task.Run(() => client.GetScoreboardAsync(RankAllPlatform.Youtube, Size.Big)));
+                    Items.ReplaceRange(await Task.Run(() => client.GetSubscribersAsync(RankAllPlatform.Youtube, Size.Big)));
                     break;
                 case "YouTube-Rang":
                     Items.ReplaceRange(await Task.Run(() => client.GetScoreboardAsync(RankAllPlatform.Youtube, Size.Big)));
