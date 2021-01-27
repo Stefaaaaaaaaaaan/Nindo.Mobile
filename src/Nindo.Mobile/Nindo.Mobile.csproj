@@ -11,12 +11,17 @@
 	  <None Remove="Resources\filter.svg" />
 	  <None Remove="Resources\home.svg" />
 	  <None Remove="Resources\instagram.svg" />
+	  <None Remove="Resources\instagramGrey.svg" />
 	  <None Remove="Resources\milestones.svg" />
 	  <None Remove="Resources\tiktok.svg" />
+	  <None Remove="Resources\tiktokGrey.svg" />
 	  <None Remove="Resources\twitch.svg" />
+	  <None Remove="Resources\twitchGrey.svg" />
 	  <None Remove="Resources\twitter.svg" />
+	  <None Remove="Resources\twitterGrey.svg" />
 	  <None Remove="Resources\viral.svg" />
 	  <None Remove="Resources\youtube.svg" />
+	  <None Remove="Resources\youtubeGrey.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -36,12 +41,17 @@
 	  <SharedImage Include="Resources\filter.svg" />
 	  <SharedImage Include="Resources\home.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\instagram.svg" BaseSize="60,60" />
+	  <SharedImage Include="Resources\instagramGrey.svg" />
 	  <SharedImage Include="Resources\milestones.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\tiktok.svg" BaseSize="60,60" />
+	  <SharedImage Include="Resources\tiktokGrey.svg" />
 	  <SharedImage Include="Resources\twitch.svg" BaseSize="60,60" />
+	  <SharedImage Include="Resources\twitchGrey.svg" />
 	  <SharedImage Include="Resources\twitter.svg" BaseSize="60,60" />
+	  <SharedImage Include="Resources\twitterGrey.svg" />
 	  <SharedImage Include="Resources\viral.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\youtube.svg" BaseSize="60,60" />
+	  <SharedImage Include="Resources\youtubeGrey.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -51,6 +61,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="Controls\MilestonesTemplate.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Controls\ScoreboardSmallTemplate.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
@@ -61,6 +74,15 @@
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Views\InstagramSmallPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\MilestonePage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\NewMilestonePage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Views\PastMilestonePage.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Views\TiktokSmallPage.xaml">
