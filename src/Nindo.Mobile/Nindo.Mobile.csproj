@@ -8,6 +8,7 @@
 	<ItemGroup>
 	  <None Remove="Resources\charts.svg" />
 	  <None Remove="Resources\discount.svg" />
+	  <None Remove="Resources\filter.svg" />
 	  <None Remove="Resources\home.svg" />
 	  <None Remove="Resources\instagram.svg" />
 	  <None Remove="Resources\instagramGrey.svg" />
@@ -25,7 +26,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Humanizer.Core" Version="2.8.26" />
-		<PackageReference Include="Nindo.Net" Version="1.0.3" />
+		<PackageReference Include="Nindo.Net" Version="1.0.4" />
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
 		<PackageReference Include="Resizetizer.NT" Version="0.2.0" />
 		<PackageReference Include="Sharpnado.Shadows" Version="1.2.0" />
@@ -37,6 +38,7 @@
 	<ItemGroup>
 	  <SharedImage Include="Resources\charts.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\discount.svg" BaseSize="60,60" />
+	  <SharedImage Include="Resources\filter.svg" />
 	  <SharedImage Include="Resources\home.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\instagram.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\instagramGrey.svg" />

@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace Nindo.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ChartsPage : TabbedPage
+    public partial class ChartsPage : ContentPage
     {
         public ChartsPage()
         {

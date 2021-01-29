@@ -1,9 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Nindo.Mobile.Views.ChartsPage">
-  <!--Pages can be added as references or inline-->
-  <ContentPage Title="Tab 1" />
-  <ContentPage Title="Tab 2" />
-  <ContentPage Title="Tab 3" />
-</TabbedPage>
+             x:Class="Nindo.Mobile.Views.ChartsPage"
+             xmlns:tabs="http://sharpnado.com"
+             xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
+             xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
+             xmlns:views="clr-namespace:Nindo.Mobile.Views;assembly=Nindo.Mobile"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <viewModels:ChartsViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Label>Charts</Label>
+    </ContentPage.Content>
+</ContentPage>

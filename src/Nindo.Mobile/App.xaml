@@ -102,7 +102,7 @@
                                             <Label.Text>
                                                 <Binding>
                                                     <Binding.Converter>
-                                                        <services:ValueFormatConverter/>
+                                                        <services:ValueToMetricConverter/>
                                                     </Binding.Converter>
                                                 </Binding>
                                             </Label.Text>
