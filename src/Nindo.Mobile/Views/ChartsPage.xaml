@@ -12,69 +12,7 @@
         <viewModels:ChartsViewModel />
     </ContentPage.BindingContext>
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="SegmentedTabStyle" TargetType="tabs:SegmentedTabItem">
-                <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
-                <Setter Property="LabelSize" Value="14" />
-                <Setter Property="SelectedLabelColor" Value="White" />
-                <Setter Property="UnselectedLabelColor" Value="Gray" />
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
-
     <ContentPage.Content>
-        <Grid>
-            <StackLayout>
-                <tabs:ViewSwitcher x:Name="Switcher"
-                                       Padding="0,0,0,0"
-                                       Animate="True"
-                                       SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}">
-                    <tabs:LazyView x:TypeArguments="views:YoutubeBigPage"
-                                   BindingContext="{Binding YoutubeViewModel}"/>
-                    <tabs:LazyView x:TypeArguments="views:InstagramSmallPage"
-                                   BindingContext="{Binding InstagramViewModel}"/>
-                    <tabs:LazyView x:TypeArguments="views:TiktokSmallPage"
-                                   BindingContext="{Binding TiktokViewModel}"/>
-                    <tabs:LazyView x:TypeArguments="views:TwitterSmallPage"
-                                   BindingContext="{Binding TwitterViewModel}"/>
-                    <tabs:LazyView x:TypeArguments="views:TwitchSmallPage"
-                                   BindingContext="{Binding TwitchViewModel}"/>
-
-                    <!--<views:YoutubeSmallPage/>
-                    <views:InstagramSmallPage/>
-                    <views:TiktokSmallPage/>
-                    <views:TwitterSmallPage/>
-                    <views:TwitchSmallPage/>-->
-                </tabs:ViewSwitcher>
-            </StackLayout>
-
-            <tabs:TabHostView x:Name="TabHost"
-                              HeightRequest="40"
-                              WidthRequest="300"
-                              Margin="0,0,0,20"
-                              VerticalOptions="End"
-                              HorizontalOptions="Center"
-                              BackgroundColor="#F0F0F3"
-                              Shades="{sh:SingleShade Offset='0,8',
-                                            Color={StaticResource Primary},
-                                            BlurRadius=10,
-                                            Opacity=0.2}"
-                              CornerRadius="50"
-                              IsSegmented="True"
-                              SegmentedHasSeparator="True"
-                              SegmentedOutlineColor="{StaticResource Primary}"
-                              TabType="Fixed"
-                              SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}">
-                <tabs:TabHostView.Tabs>
-                    <tabs:BottomTabItem Style="{StaticResource SegmentedTabStyle}" IconImageSource="youtube.png" IconSize="20" Padding="0,10,0,0" UnselectedIconColor="#d44141"/>
-                    <tabs:BottomTabItem Style="{StaticResource SegmentedTabStyle}" IconImageSource="instagram.png" IconSize="20" Padding="0,10,0,0" UnselectedIconColor="#aa7a50"/>
-                    <tabs:BottomTabItem Style="{StaticResource SegmentedTabStyle}" IconImageSource="tiktok.png" IconSize="20" Padding="0,10,0,0"/>
-                    <tabs:BottomTabItem Style="{StaticResource SegmentedTabStyle}" IconImageSource="twitter.png" IconSize="20" Padding="0,10,0,0" UnselectedIconColor="#08a0e9"/>
-                    <tabs:BottomTabItem Style="{StaticResource SegmentedTabStyle}" IconImageSource="twitch.png" IconSize="20" Padding="0,10,0,0" UnselectedIconColor="#816ea4"/>
-                </tabs:TabHostView.Tabs>
-            </tabs:TabHostView>
-        </Grid>
+        <Label>Charts</Label>
     </ContentPage.Content>
 </ContentPage>
