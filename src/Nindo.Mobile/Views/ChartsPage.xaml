@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Nindo.Mobile.Views.ChartsPage"
              xmlns:tabs="http://sharpnado.com"
-             xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
              xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
              xmlns:views="clr-namespace:Nindo.Mobile.Views;assembly=Nindo.Mobile"
              Title="{Binding Title}">

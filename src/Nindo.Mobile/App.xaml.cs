@@ -11,11 +11,9 @@ namespace Nindo.Mobile
 
         public App()
         {
+            Device.SetFlags(new string[] { "Expander_Experimental" });
             InitializeComponent();
             MainPage = new AppShell();
-
-            Sharpnado.Tabs.Initializer.Initialize(loggerEnable: false, debugLogEnable: false);
-            Sharpnado.Shades.Initializer.Initialize(loggerEnable: false);
         }
 
         protected override void OnStart()
