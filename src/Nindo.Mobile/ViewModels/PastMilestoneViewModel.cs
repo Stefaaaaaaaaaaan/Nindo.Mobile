@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmHelpers.Commands;
-using Nindo.Net.Clients;
+using Nindo.Net;
 using Nindo.Net.Models;
 
 namespace Nindo.Mobile.ViewModels
@@ -25,7 +25,7 @@ namespace Nindo.Mobile.ViewModels
 
         async Task LoadRanks()
         {
-            var client = new RanksClient();
+            var client = new NindoClient();
 
             Milestones = (await client.GetPastMilestonesAsync()).ToList();
         }

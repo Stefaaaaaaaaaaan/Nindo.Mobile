@@ -33,7 +33,7 @@
 	<ItemGroup>
 		<PackageReference Include="Humanizer.Core" Version="2.8.26" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-		<PackageReference Include="Nindo.Net" Version="1.0.4" />
+		<PackageReference Include="Nindo.Net" Version="1.0.6" />
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
 		<PackageReference Include="Resizetizer.NT" Version="0.2.0" />
 		<PackageReference Include="Xamarin.Forms" Version="4.8.0.1821" />
@@ -85,9 +85,6 @@
 		<EmbeddedResource Update="Views\HomePage.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Views\InstagramSmallPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
 		<EmbeddedResource Update="Views\MilestonePage.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
@@ -97,21 +94,13 @@
 		<EmbeddedResource Update="Views\PastMilestonePage.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Views\TiktokSmallPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\TwitchSmallPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\TwitterSmallPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\YoutubeSmallPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Models\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Nindo.Common\Nindo.Common.csproj" />
 	</ItemGroup>
 </Project>

@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Nindo.Net;
-using Nindo.Net.Clients;
+﻿using System.Threading.Tasks;
 using Nindo.Net.Models;
 using Nindo.Net.Models.Enums;
-using Humanizer;
 using MvvmHelpers.Commands;
 using MvvmHelpers.Interfaces;
+using Nindo.Common.Common;
+using Nindo.Net;
 using Size = Nindo.Net.Models.Enums.Size;
 
 
@@ -25,7 +17,7 @@ namespace Nindo.Mobile.ViewModels
         public HomeViewModel()
         {
             Title = "Nindo";
-            Items = new List<Rank>();
+            Items = new RangeObservableCollection<Rank>();
             Task.Run(async () => await LoadRanksAsync("youtube"));
 
             LoadCommand = new AsyncCommand<string>(LoadRanksAsync, CanExecuteLoad);
@@ -35,31 +27,37 @@ namespace Nindo.Mobile.ViewModels
         {
             try
             {
-                var client = new RanksClient();
+                var client = new NindoClient();
                 switch (platform)
                 {
                     case "youtube":
-                        Items = await Task.Run(async () => (await client.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small)).ToList());
+                        Items.Clear();
+                        Items.AddRange(await client.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small));
                         CurrentPlatform = "youtube";
                         break;
                     case "instagram":
-                        Items = await Task.Run(async () => (await client.GetLikesScoreboardAsync(RankLikesPlatform.Instagram, Size.Small)).ToList());
+                        Items.Clear();
+                        Items.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.Instagram, Size.Small));
                         CurrentPlatform = "instagram";
                         break;
                     case "tiktok":
-                        Items = await Task.Run(async () => (await client.GetLikesScoreboardAsync(RankLikesPlatform.TikTok, Size.Small)).ToList());
+                        Items.Clear();
+                        Items.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.TikTok, Size.Small));
                         CurrentPlatform = "tiktok";
                         break;
                     case "twitter":
-                        Items = await Task.Run(async () => (await client.GetLikesScoreboardAsync(RankLikesPlatform.Twitter, Size.Small)).ToList());
+                        Items.Clear();
+                        Items.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.Twitter, Size.Small));
                         CurrentPlatform = "twitter";
                         break;
                     case "twitch":
-                        Items = await Task.Run(async () => (await client.GetViewersScoreboardAsync(RankViewerPlatform.Twitch, Size.Small)).ToList());
+                        Items.Clear();
+                        Items.AddRange(await client.GetViewersScoreboardAsync(Size.Small));
                         CurrentPlatform = "twitch";
                         break;
                     default:
-                        Items = await Task.Run(async () => (await client.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small)).ToList());
+                        Items.Clear();
+                        Items.AddRange(await client.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small));
                         CurrentPlatform = "youtube";
                         break;
                 }
@@ -74,15 +72,15 @@ namespace Nindo.Mobile.ViewModels
             return !IsBusy;
         }
 
-        private List<Rank> _items;
+        private RangeObservableCollection<Rank> _items;
 
-        public List<Rank> Items
+        public RangeObservableCollection<Rank> Items
         {
             get => _items;
             set
             {
                 _items = value;
-                OnPropertyChanged();
+                OnPropertyChanged(); 
             }
         }
 
