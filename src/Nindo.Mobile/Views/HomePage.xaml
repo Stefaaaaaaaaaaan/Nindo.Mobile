@@ -115,7 +115,7 @@
                         <CollectionView.Footer>
                             <StackLayout>
                                 <Label 
-                                    Padding="0,20,0,80"
+                                    Padding="0,20,0,20"
                                     FontSize="Small"
                                     FontAttributes="Bold"
                                     Text="Tippe auf einen Künstler um weitere Optionen anzuzeigen"
@@ -141,11 +141,11 @@
                         </Image>
                     </Expander.Header>
                     <StackLayout Spacing="30" Margin="0,20">
-                        <ImageButton Source="youtubeWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding LoadCommand}" CommandParameter="youtube"/>
-                        <ImageButton Source="instagramWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding LoadCommand}" CommandParameter="instagram"/>
-                        <ImageButton Source="tiktokWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding LoadCommand}" CommandParameter="tiktok"/>
-                        <ImageButton Source="twitterWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding LoadCommand}" CommandParameter="twitter"/>
-                        <ImageButton Source="twitchWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding LoadCommand}" CommandParameter="twitch"/>
+                        <ImageButton Source="youtubeWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformAsyncCommand}" CommandParameter="youtube"/>
+                        <ImageButton Source="instagramWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformAsyncCommand}" CommandParameter="instagram"/>
+                        <ImageButton Source="tiktokWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformAsyncCommand}" CommandParameter="tiktok"/>
+                        <ImageButton Source="twitterWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformAsyncCommand}" CommandParameter="twitter"/>
+                        <ImageButton Source="twitchWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformAsyncCommand}" CommandParameter="twitch"/>
                     </StackLayout>
                 </Expander>
             </pv:PancakeView> 

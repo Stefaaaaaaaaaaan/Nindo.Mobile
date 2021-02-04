@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using Nindo.Net.Models;
 using Nindo.Net.Models.Enums;
 using MvvmHelpers.Commands;
@@ -12,52 +13,96 @@ namespace Nindo.Mobile.ViewModels
 {
     public class HomeViewModel : BaseViewModel
     {
-        public IAsyncCommand<string> LoadCommand { get; }
+        public IAsyncCommand LoadCommand { get; }
+        public IAsyncCommand<string> ChangePlatformAsyncCommand { get; }
 
         public HomeViewModel()
         {
             Title = "Nindo";
             Items = new RangeObservableCollection<Rank>();
-            Task.Run(async () => await LoadRanksAsync("youtube"));
+            Youtube = new RangeObservableCollection<Rank>();
+            Instagram = new RangeObservableCollection<Rank>();
+            Tiktok = new RangeObservableCollection<Rank>();
+            Twitter = new RangeObservableCollection<Rank>();
+            Twitch = new RangeObservableCollection<Rank>();
 
-            LoadCommand = new AsyncCommand<string>(LoadRanksAsync, CanExecuteLoad);
+            Task.Run(async () => await LoadRanksAsync());
+
+            LoadCommand = new AsyncCommand(LoadRanksAsync, CanExecuteLoad);
+            ChangePlatformAsyncCommand = new AsyncCommand<string>(ChangePlatformAsync, CanExecuteLoad);
+
         }
 
-        private async Task LoadRanksAsync(string platform)
+        private async Task LoadRanksAsync()
         {
             try
             {
+                if (Items.Count > 0)
+                {
+                    Items.Clear();
+                    ClearAll();
+                }
+
                 var client = new NindoClient();
+                await Task.Run(async () =>
+                {
+                    Youtube.AddRange(await client.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small));
+                    Items.AddRange(Youtube);
+                    if(string.IsNullOrEmpty(CurrentPlatform))
+                        CurrentPlatform = "youtube";
+                });
+                await Task.Run(async () =>
+                {
+                    Instagram.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.Instagram, Size.Small));
+                    Tiktok.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.TikTok, Size.Small));
+                    Twitter.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.Twitter, Size.Small));
+                    Twitch.AddRange(await client.GetViewersScoreboardAsync(Size.Small));
+                });
+
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task ChangePlatformAsync(string platform)
+        {
+            try
+            {
+                if (CurrentPlatform == platform)
+                    return;
+
                 switch (platform)
                 {
                     case "youtube":
                         Items.Clear();
-                        Items.AddRange(await client.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small));
+                        Items.AddRange(Youtube);
                         CurrentPlatform = "youtube";
                         break;
                     case "instagram":
                         Items.Clear();
-                        Items.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.Instagram, Size.Small));
+                        Items.AddRange(Instagram);
                         CurrentPlatform = "instagram";
                         break;
                     case "tiktok":
                         Items.Clear();
-                        Items.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.TikTok, Size.Small));
+                        Items.AddRange(Tiktok);
                         CurrentPlatform = "tiktok";
                         break;
                     case "twitter":
                         Items.Clear();
-                        Items.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.Twitter, Size.Small));
+                        Items.AddRange(Twitter);
                         CurrentPlatform = "twitter";
                         break;
                     case "twitch":
                         Items.Clear();
-                        Items.AddRange(await client.GetViewersScoreboardAsync(Size.Small));
+                        Items.AddRange(Twitch);
                         CurrentPlatform = "twitch";
                         break;
                     default:
                         Items.Clear();
-                        Items.AddRange(await client.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small));
+                        Items.AddRange(Youtube);
                         CurrentPlatform = "youtube";
                         break;
                 }
@@ -67,9 +112,19 @@ namespace Nindo.Mobile.ViewModels
                 IsBusy = false;
             }
         }
+
         private bool CanExecuteLoad(object arg)
         {
             return !IsBusy;
+        }
+
+        private void ClearAll()
+        {
+            Youtube.Clear();
+            Instagram.Clear();
+            Tiktok.Clear();
+            Twitter.Clear();
+            Twitch.Clear();
         }
 
         private RangeObservableCollection<Rank> _items;
@@ -80,7 +135,68 @@ namespace Nindo.Mobile.ViewModels
             set
             {
                 _items = value;
-                OnPropertyChanged(); 
+                OnPropertyChanged();
+            }
+        }
+
+        private RangeObservableCollection<Rank> _youtube;
+
+        public RangeObservableCollection<Rank> Youtube
+        {
+            get => _youtube;
+            set
+            {
+                _youtube = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private RangeObservableCollection<Rank> _instagram;
+
+        public RangeObservableCollection<Rank> Instagram
+        {
+            get => _instagram;
+            set
+            {
+                _instagram = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private RangeObservableCollection<Rank> _tiktok;
+
+        public RangeObservableCollection<Rank> Tiktok
+        {
+            get => _tiktok;
+            set
+            {
+                _tiktok = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private RangeObservableCollection<Rank> _twitter;
+
+        public RangeObservableCollection<Rank> Twitter
+        {
+            get => _twitter;
+            set
+            {
+                _twitter = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private RangeObservableCollection<Rank> _twitch;
+
+        public RangeObservableCollection<Rank> Twitch
+        {
+            get => _twitch;
+            set
+            {
+                _twitch = value;
+                OnPropertyChanged();
             }
         }
 
@@ -91,6 +207,7 @@ namespace Nindo.Mobile.ViewModels
             get => _currentPlatform;
             set
             {
+                if (_currentPlatform == value) return;
                 _currentPlatform = value;
                 OnPropertyChanged();
             }
