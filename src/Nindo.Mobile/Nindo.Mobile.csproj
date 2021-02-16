@@ -7,51 +7,64 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\charts.svg" />
+	  <None Remove="Resources\closeWhite.svg" />
 	  <None Remove="Resources\discount.svg" />
 	  <None Remove="Resources\filter.svg" />
 	  <None Remove="Resources\home.svg" />
 	  <None Remove="Resources\instagram.svg" />
 	  <None Remove="Resources\instagramGrey.svg" />
+	  <None Remove="Resources\instagramWhite.svg" />
 	  <None Remove="Resources\milestones.svg" />
 	  <None Remove="Resources\tiktok.svg" />
 	  <None Remove="Resources\tiktokGrey.svg" />
+	  <None Remove="Resources\tiktokWhite.svg" />
 	  <None Remove="Resources\twitch.svg" />
 	  <None Remove="Resources\twitchGrey.svg" />
+	  <None Remove="Resources\twitchWhite.svg" />
 	  <None Remove="Resources\twitter.svg" />
 	  <None Remove="Resources\twitterGrey.svg" />
+	  <None Remove="Resources\twitterWhite.svg" />
 	  <None Remove="Resources\viral.svg" />
 	  <None Remove="Resources\youtube.svg" />
 	  <None Remove="Resources\youtubeGrey.svg" />
+	  <None Remove="Resources\youtubeWhite.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Humanizer.Core" Version="2.8.26" />
-		<PackageReference Include="Nindo.Net" Version="1.0.4" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+		<PackageReference Include="Nindo.Net" Version="1.0.6" />
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
 		<PackageReference Include="Resizetizer.NT" Version="0.2.0" />
-		<PackageReference Include="Sharpnado.Shadows" Version="1.2.0" />
-		<PackageReference Include="Sharpnado.Tabs" Version="2.0.1" />
-		<PackageReference Include="Xamarin.Forms" Version="4.8.0.1821" />
-		<PackageReference Include="Xamarin.Essentials" Version="1.6.0" />
+		<PackageReference Include="Xamarin.CommunityToolkit" Version="1.0.2" />
+		<PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
+		<PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+		<PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <SharedImage Include="Resources\charts.svg" BaseSize="60,60" />
+	  <SharedImage Include="Resources\closeWhite.svg" />
 	  <SharedImage Include="Resources\discount.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\filter.svg" />
 	  <SharedImage Include="Resources\home.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\instagram.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\instagramGrey.svg" />
+	  <SharedImage Include="Resources\instagramWhite.svg" />
 	  <SharedImage Include="Resources\milestones.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\tiktok.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\tiktokGrey.svg" />
+	  <SharedImage Include="Resources\tiktokWhite.svg" />
 	  <SharedImage Include="Resources\twitch.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\twitchGrey.svg" />
+	  <SharedImage Include="Resources\twitchWhite.svg" />
 	  <SharedImage Include="Resources\twitter.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\twitterGrey.svg" />
+	  <SharedImage Include="Resources\twitterWhite.svg" />
 	  <SharedImage Include="Resources\viral.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\youtube.svg" BaseSize="60,60" />
 	  <SharedImage Include="Resources\youtubeGrey.svg" />
+	  <SharedImage Include="Resources\youtubeWhite.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -73,9 +86,6 @@
 		<EmbeddedResource Update="Views\HomePage.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Views\InstagramSmallPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
 		<EmbeddedResource Update="Views\MilestonePage.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
@@ -85,21 +95,13 @@
 		<EmbeddedResource Update="Views\PastMilestonePage.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Views\TiktokSmallPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\TwitchSmallPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\TwitterSmallPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Views\YoutubeSmallPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Models\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Nindo.Common\Nindo.Common.csproj" />
 	</ItemGroup>
 </Project>

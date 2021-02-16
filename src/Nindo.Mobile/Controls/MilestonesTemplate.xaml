@@ -6,7 +6,7 @@
     <ContentView.Content>
         <RefreshView x:Name="InnerRefreshView">
             <StackLayout>
-                <CollectionView x:Name="InnerCollectionView">
+                <CollectionView x:Name="InnerCollectionView" >
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame BorderColor="#eeeeee" Padding="0" >
@@ -16,7 +16,7 @@
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="80" />
                                         <ColumnDefinition Width="140" />
                                         <ColumnDefinition Width="70" />
                                         <ColumnDefinition Width="*" />
@@ -34,7 +34,6 @@
                                            VerticalTextAlignment="Center"/>
                                     <Image
                                             Grid.Column="2"
-                                          
                                             WidthRequest="34"
                                             HeightRequest="34"
                                             VerticalOptions="Center">
