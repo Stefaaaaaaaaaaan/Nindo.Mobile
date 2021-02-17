@@ -27,6 +27,8 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.101
+      - name: Clean
+        run: dotnet clean ${{ env.SolutionFile }} --configuration ${{ env.BuildConfig }} && dotnet nuget locals all --clear
       - name: Install dependencies
         run: dotnet restore ${{ env.SolutionFile }}
       - name: Cache SonarCloud packages
