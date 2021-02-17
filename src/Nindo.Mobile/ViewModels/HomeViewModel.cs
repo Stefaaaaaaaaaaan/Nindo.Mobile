@@ -6,8 +6,6 @@ using MvvmHelpers.Commands;
 using MvvmHelpers.Interfaces;
 using Nindo.Common.Common;
 using Nindo.Net;
-using Size = Nindo.Net.Models.Enums.Size;
-
 
 namespace Nindo.Mobile.ViewModels
 {
@@ -39,8 +37,8 @@ namespace Nindo.Mobile.ViewModels
             {
                 if (Items.Count > 0)
                 {
-                    Items.Clear();
-                    ClearAll();
+                    ClearCollections();
+                    CurrentPlatform = "youtube";
                 }
 
                 var client = new NindoClient();
@@ -100,11 +98,6 @@ namespace Nindo.Mobile.ViewModels
                         Items.AddRange(Twitch);
                         CurrentPlatform = "twitch";
                         break;
-                    default:
-                        Items.Clear();
-                        Items.AddRange(Youtube);
-                        CurrentPlatform = "youtube";
-                        break;
                 }
             }
             finally
@@ -118,8 +111,9 @@ namespace Nindo.Mobile.ViewModels
             return !IsBusy;
         }
 
-        private void ClearAll()
+        private void ClearCollections()
         {
+            Items.Clear();
             Youtube.Clear();
             Instagram.Clear();
             Tiktok.Clear();
