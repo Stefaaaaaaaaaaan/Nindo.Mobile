@@ -142,11 +142,11 @@
                         </Image>
                     </toolkit:Expander.Header>
                     <StackLayout Spacing="30" Margin="0,20">
-                        <ImageButton Source="youtubeWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformAsyncCommand}" CommandParameter="youtube"/>
-                        <ImageButton Source="instagramWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformAsyncCommand}" CommandParameter="instagram"/>
-                        <ImageButton Source="tiktokWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformAsyncCommand}" CommandParameter="tiktok"/>
-                        <ImageButton Source="twitterWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformAsyncCommand}" CommandParameter="twitter"/>
-                        <ImageButton Source="twitchWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformAsyncCommand}" CommandParameter="twitch"/>
+                        <ImageButton Source="youtubeWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformCommand}" CommandParameter="youtube"/>
+                        <ImageButton Source="instagramWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformCommand}" CommandParameter="instagram"/>
+                        <ImageButton Source="tiktokWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformCommand}" CommandParameter="tiktok"/>
+                        <ImageButton Source="twitterWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformCommand}" CommandParameter="twitter"/>
+                        <ImageButton Source="twitchWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Command="{Binding ChangePlatformCommand}" CommandParameter="twitch"/>
                     </StackLayout>
                 </toolkit:Expander>
             </pv:PancakeView> 

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
+             xmlns:m="clr-namespace:Nindo.Mobile.Models;assembly=Nindo.Mobile"
+             x:Class="Nindo.Mobile.Views.ViralPage">
+
+    <ContentPage.BindingContext>
+        <viewModels:ViralViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <m:ViralTypes x:Key="TwitchMaxViewer">TwitchMaxViewer</m:ViralTypes>
+        <m:ViralTypes x:Key="TwitchLongestStream">TwitchLongestStream</m:ViralTypes>
+        <m:ViralTypes x:Key="TwitterLikes">TwitterLikes</m:ViralTypes>
+        <m:ViralTypes x:Key="TwitterRetweets">TwitterRetweets</m:ViralTypes>
+        <m:ViralTypes x:Key="TiktokLikes">TiktokLikes</m:ViralTypes>
+        <m:ViralTypes x:Key="TiktokComments">TiktokComments</m:ViralTypes>
+        <m:ViralTypes x:Key="TiktokViews">TiktokViews</m:ViralTypes>
+        <m:ViralTypes x:Key="YoutubeLikes">YoutubeLikes</m:ViralTypes>
+        <m:ViralTypes x:Key="YoutubeComments">YoutubeComments</m:ViralTypes>
+        <m:ViralTypes x:Key="YoutubeViews">YoutubeViews</m:ViralTypes>
+        <m:ViralTypes x:Key="InstagramLikes">InstagramLikes</m:ViralTypes>
+        <m:ViralTypes x:Key="InstagramComments">InstagramComments</m:ViralTypes>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout>
+            <Label>YouTube</Label>
+            <Button Text="Views" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource YoutubeViews}"/>
+            <Button Text="Likes"/>
+            <Button Text="Kommentare"/>
+            <Label>TikTok</Label>
+            <Button Text="Views"/>
+            <Button Text="Likes"/>
+            <Button Text="Kommentare"/>
+            <Label>Twitch</Label>
+            <Button Text="Max. Zuschauer"/>
+            <Button Text="Längster Stream"/>
+            <Label>Instagram</Label>
+            <Button Text="Likes"/>
+            <Button Text="Kommentare"/>
+            <Label>Twitter</Label>
+            <Button Text="Likes"/>
+            <Button Text="Retweets"/>
+        </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

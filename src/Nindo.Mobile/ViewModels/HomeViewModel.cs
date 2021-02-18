@@ -12,7 +12,7 @@ namespace Nindo.Mobile.ViewModels
     public class HomeViewModel : BaseViewModel
     {
         public IAsyncCommand LoadCommand { get; }
-        public Command<string> ChangePlatformAsyncCommand { get; }
+        public Command<string> ChangePlatformCommand { get; }
 
         public HomeViewModel()
         {
@@ -27,7 +27,7 @@ namespace Nindo.Mobile.ViewModels
             Task.Run(async () => await LoadRanksAsync());
 
             LoadCommand = new AsyncCommand(LoadRanksAsync, CanExecuteLoad);
-            ChangePlatformAsyncCommand = new Command<string>(ChangePlatformAsync, CanExecuteLoad);
+            ChangePlatformCommand = new Command<string>(ChangePlatform, CanExecuteLoad);
 
         }
 
@@ -64,7 +64,7 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
-        private void ChangePlatformAsync(string platform)
+        private void ChangePlatform(string platform)
         {
             try
             {
