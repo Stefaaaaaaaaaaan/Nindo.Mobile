@@ -3,7 +3,6 @@ using System.Globalization;
 using Humanizer;
 using Nindo.Net.Models;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Nindo.Mobile.Services
 {

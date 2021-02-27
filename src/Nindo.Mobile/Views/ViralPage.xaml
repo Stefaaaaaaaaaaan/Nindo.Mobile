@@ -29,21 +29,21 @@
         <StackLayout>
             <Label>YouTube</Label>
             <Button Text="Views" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource YoutubeViews}"/>
-            <Button Text="Likes"/>
-            <Button Text="Kommentare"/>
+            <Button Text="Likes" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource YoutubeLikes}"/>
+            <Button Text="Kommentare" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource YoutubeComments}"/>
             <Label>TikTok</Label>
-            <Button Text="Views"/>
-            <Button Text="Likes"/>
-            <Button Text="Kommentare"/>
+            <Button Text="Views" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource TiktokViews}"/>
+            <Button Text="Likes" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource TiktokLikes}"/>
+            <Button Text="Kommentare" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource TiktokComments}"/>
             <Label>Twitch</Label>
-            <Button Text="Max. Zuschauer"/>
-            <Button Text="Längster Stream"/>
+            <Button Text="Max. Zuschauer" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource TwitchMaxViewer}"/>
+            <Button Text="Längster Stream" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource TwitchLongestStream}"/>
             <Label>Instagram</Label>
-            <Button Text="Likes"/>
-            <Button Text="Kommentare"/>
+            <Button Text="Likes" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource InstagramLikes}"/>
+            <Button Text="Kommentare" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource InstagramComments}"/>
             <Label>Twitter</Label>
-            <Button Text="Likes"/>
-            <Button Text="Retweets"/>
+            <Button Text="Likes" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource TwitterLikes}"/>
+            <Button Text="Retweets" Command="{Binding OpenDetailPageAsyncCommand}" CommandParameter="{StaticResource TwitterRetweets}"/>
         </StackLayout>
         </ScrollView>
     </ContentPage.Content>

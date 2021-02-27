@@ -2,7 +2,7 @@
 
 namespace Nindo.Mobile.ViewModels
 {
-    public class ChartsViewModel : BaseViewModel
+    public class ChartsViewModel : ViewModelBase
     {
         public ChartsViewModel()
         {

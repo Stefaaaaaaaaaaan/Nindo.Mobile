@@ -9,11 +9,11 @@ using Nindo.Net.Models;
 
 namespace Nindo.Mobile.ViewModels
 {
-    class PastMilestoneViewModel : BaseViewModel
+    class PastMilestone : ViewModelBase
     {
         public ICommand RefreshCommand { get; }
 
-        public PastMilestoneViewModel()
+        public PastMilestone()
         {
 
             Milestones = new List<Milestone>();

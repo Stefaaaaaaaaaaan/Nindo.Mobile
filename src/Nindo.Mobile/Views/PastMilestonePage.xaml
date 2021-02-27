@@ -6,7 +6,7 @@
              x:Class="Nindo.Mobile.Views.PastMilestonePage">
 
     <ContentPage.BindingContext>
-        <viewModels:PastMilestoneViewModel />
+        <viewModels:PastMilestone />
     </ContentPage.BindingContext>
 
     <ContentPage.Content>

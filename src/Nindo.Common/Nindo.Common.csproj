@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Nindo.Net" Version="1.0.6" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
   </ItemGroup>
 
 </Project>

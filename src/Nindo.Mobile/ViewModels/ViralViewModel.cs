@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace Nindo.Mobile.ViewModels
 {
-    public class ViralViewModel : BaseViewModel
+    public class ViralViewModel : ViewModelBase
     {
         public Command<ViralTypes> OpenDetailPageAsyncCommand { get; }
 

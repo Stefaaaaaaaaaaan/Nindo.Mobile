@@ -1,15 +1,15 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Nindo.Net.Models;
 using Nindo.Net.Models.Enums;
-using MvvmHelpers.Commands;
-using MvvmHelpers.Interfaces;
 using Nindo.Common.Common;
 using Nindo.Net;
+using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
+using Size = Nindo.Net.Models.Enums.Size;
 
 namespace Nindo.Mobile.ViewModels
 {
-    public class HomeViewModel : BaseViewModel
+    public class HomeViewModel : ViewModelBase
     {
         public IAsyncCommand LoadCommand { get; }
         public Command<string> ChangePlatformCommand { get; }
