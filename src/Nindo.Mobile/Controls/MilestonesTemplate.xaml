@@ -2,7 +2,13 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:services="clr-namespace:Nindo.Mobile.Services;assembly=Nindo.Mobile"
+             xmlns:converters="clr-namespace:Nindo.Mobile.Converters;assembly=Nindo.Mobile"
              x:Class="Nindo.Mobile.Controls.MilestonesTemplate">
+
+    <ContentView.Resources>
+        <converters:UlongToDecimal x:Key="ulongToDecimal"/>
+    </ContentView.Resources>
+
     <ContentView.Content>
         <RefreshView x:Name="InnerRefreshView">
             <StackLayout>
@@ -40,26 +46,18 @@
                                         <Image.Source>
                                             <Binding>
                                                 <Binding.Converter>
-                                                    <services:FormatPlatformIcons/>
+                                                    <converters:FormatPlatformIcons/>
                                                 </Binding.Converter>
                                             </Binding>
                                         </Image.Source>
                                     </Image>
-                                    <Label 
-                                           Grid.Row="0"
+                                    <Label Grid.Row="0"
                                            Grid.Column="3"
                                            FontAttributes="Italic" 
                                            FontSize="20"
                                            TextColor="#5a5a5a"
-                                           VerticalTextAlignment="Center">
-                                        <Label.Text>
-                                            <Binding>
-                                                <Binding.Converter>
-                                                    <services:FormatToDecimal/>
-                                                </Binding.Converter>
-                                            </Binding>
-                                        </Label.Text>
-                                    </Label>
+                                           VerticalTextAlignment="Center"
+                                           Text="{Binding CurrentSubs, Converter={StaticResource ulongToDecimal}}"/>
                                 </Grid>
                             </Frame>
                         </DataTemplate>

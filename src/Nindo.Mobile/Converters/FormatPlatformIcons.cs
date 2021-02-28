@@ -1,11 +1,9 @@
-﻿using Nindo.Net.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
-using System.Text;
+using Nindo.Net.Models;
 using Xamarin.Forms;
 
-namespace Nindo.Mobile.Services
+namespace Nindo.Mobile.Converters
 {
     class FormatPlatformIcons : IValueConverter
     {

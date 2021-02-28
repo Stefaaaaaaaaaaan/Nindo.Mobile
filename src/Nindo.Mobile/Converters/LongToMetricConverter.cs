@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Globalization;
 using Humanizer;
-using Nindo.Net.Models;
 using Xamarin.Forms;
 
-namespace Nindo.Mobile.Services
+namespace Nindo.Mobile.Converters
 {
-    public class ValueToMetricConverter : IValueConverter
+    public class LongToMetricConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
                 return null;
-            var rank = (Rank) value;
-            return System.Convert.ToDouble(rank.Value).ToMetric(decimals:1);
+            var number = (long)value;
+            return System.Convert.ToDouble(number).ToMetric(decimals:1);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

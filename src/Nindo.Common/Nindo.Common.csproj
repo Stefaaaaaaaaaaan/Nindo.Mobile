@@ -5,8 +5,36 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nindo.Net" Version="1.0.7" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+    <None Update="Resources\charts.svg">
+      <BaseSize>60,60</BaseSize>
+    </None>
+    <None Update="Resources\discount.svg">
+      <BaseSize>60,60</BaseSize>
+    </None>
+    <None Update="Resources\home.svg">
+      <BaseSize>60,60</BaseSize>
+    </None>
+    <None Update="Resources\instagram.svg">
+      <BaseSize>60,60</BaseSize>
+    </None>
+    <None Update="Resources\milestones.svg">
+      <BaseSize>60,60</BaseSize>
+    </None>
+    <None Update="Resources\tiktok.svg">
+      <BaseSize>60,60</BaseSize>
+    </None>
+    <None Update="Resources\twitch.svg">
+      <BaseSize>60,60</BaseSize>
+    </None>
+    <None Update="Resources\twitter.svg">
+      <BaseSize>60,60</BaseSize>
+    </None>
+    <None Update="Resources\viral.svg">
+      <BaseSize>60,60</BaseSize>
+    </None>
+    <None Update="Resources\youtube.svg">
+      <BaseSize>60,60</BaseSize>
+    </None>
   </ItemGroup>
 
 </Project>
