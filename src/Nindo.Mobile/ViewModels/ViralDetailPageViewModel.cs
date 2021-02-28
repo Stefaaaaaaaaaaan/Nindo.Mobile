@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using Humanizer;
 using Nindo.Mobile.Models;
 using Nindo.Net.Models;
 
@@ -10,7 +12,9 @@ namespace Nindo.Mobile.ViewModels
         public ViralDetailPageViewModel(Viral viral)
         {
             ViralEntry = viral;
+            Title = $"{ViralEntry.Platform.Humanize()} {ViralEntry.Type.Humanize()}";
             GetContentUrl();
+            GetFirstDayOfCurrentMonth();
         }
 
         private void GetContentUrl()
@@ -37,6 +41,24 @@ namespace Nindo.Mobile.ViewModels
                     Height = 750;
                     Width = 500;
                     break;
+            }
+        }
+
+        private void GetFirstDayOfCurrentMonth()
+        {
+            var dateTimeNow = DateTime.Now;
+            FirstDayOfMonth = new DateTime(dateTimeNow.Year, dateTimeNow.Month, 1).ToString("dd.MM");
+        }
+
+        private string _firstDayOfMonth;
+
+        public string FirstDayOfMonth
+        {
+            get => _firstDayOfMonth;
+            set
+            {
+                _firstDayOfMonth = value;
+                OnPropertyChanged();
             }
         }
 
