@@ -5,10 +5,6 @@
              xmlns:converters="clr-namespace:Nindo.Mobile.Converters;assembly=Nindo.Mobile"
              x:Class="Nindo.Mobile.Controls.MilestonesTemplate">
 
-    <ContentView.Resources>
-        <converters:UlongToDecimal x:Key="ulongToDecimal"/>
-    </ContentView.Resources>
-
     <ContentView.Content>
         <RefreshView x:Name="InnerRefreshView">
             <StackLayout>
@@ -57,7 +53,7 @@
                                            FontSize="20"
                                            TextColor="#5a5a5a"
                                            VerticalTextAlignment="Center"
-                                           Text="{Binding CurrentSubs, Converter={StaticResource ulongToDecimal}}"/>
+                                           Text="{Binding CurrentSubs, StringFormat='{0:N0}'}"/>
                                 </Grid>
                             </Frame>
                         </DataTemplate>

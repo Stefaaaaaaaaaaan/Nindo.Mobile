@@ -4,37 +4,4 @@
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="Resources\charts.svg">
-      <BaseSize>60,60</BaseSize>
-    </None>
-    <None Update="Resources\discount.svg">
-      <BaseSize>60,60</BaseSize>
-    </None>
-    <None Update="Resources\home.svg">
-      <BaseSize>60,60</BaseSize>
-    </None>
-    <None Update="Resources\instagram.svg">
-      <BaseSize>60,60</BaseSize>
-    </None>
-    <None Update="Resources\milestones.svg">
-      <BaseSize>60,60</BaseSize>
-    </None>
-    <None Update="Resources\tiktok.svg">
-      <BaseSize>60,60</BaseSize>
-    </None>
-    <None Update="Resources\twitch.svg">
-      <BaseSize>60,60</BaseSize>
-    </None>
-    <None Update="Resources\twitter.svg">
-      <BaseSize>60,60</BaseSize>
-    </None>
-    <None Update="Resources\viral.svg">
-      <BaseSize>60,60</BaseSize>
-    </None>
-    <None Update="Resources\youtube.svg">
-      <BaseSize>60,60</BaseSize>
-    </None>
-  </ItemGroup>
-
 </Project>

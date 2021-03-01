@@ -5,10 +5,6 @@
              x:Class="Nindo.Mobile.Views.ViralDetailPage"
              Title="{Binding Title}">
 
-    <ContentPage.Resources>
-        <converters:UlongToDecimal x:Key="ulongToDecimal"/>
-    </ContentPage.Resources>
-
     <ContentPage.Content>
         <StackLayout Padding="20">
             <Grid  RowSpacing="0"
@@ -24,7 +20,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackLayout Grid.Column="0" Orientation="Horizontal">
-                    <Label  FontSize="25" Text="{Binding ViralEntry.Value, Converter={StaticResource ulongToDecimal}}" TextColor="{StaticResource Primary}"/>
+                    <Label  FontSize="25" Text="{Binding ViralEntry.Value, StringFormat='{0:N0}'}" TextColor="{StaticResource Primary}"/>
                     <Label  FontSize="25" Text="{Binding ViralEntry.Type}"/>
                 </StackLayout>
 
