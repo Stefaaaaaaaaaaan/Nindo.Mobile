@@ -5,14 +5,14 @@ using Xamarin.Forms;
 
 namespace Nindo.Mobile.Converters
 {
-    class FormatPlatformIcons : IValueConverter
+    public class IconConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
                 return null;
-            var milestone = (Milestone)value;
-            switch (milestone.MilestoneChannel.Platform)
+            var platform = (string)value;
+            switch (platform)
             {
                 case "twitch":
                     return "twitchGrey.png";

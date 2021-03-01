@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Nindo.Mobile.Converters
 {
-    public class LongToMetricConverter : IValueConverter
+    public class MetricConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -19,7 +19,8 @@ namespace Nindo.Mobile.Converters
         {
             if (value == null)
                 return null;
-            return System.Convert.ToString(value).FromMetric();
+            var metric = (string)value;
+            return System.Convert.ToString(metric).FromMetric();
         }
     }
 }
