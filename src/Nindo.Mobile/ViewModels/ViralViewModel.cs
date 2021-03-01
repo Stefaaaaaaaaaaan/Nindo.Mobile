@@ -2,12 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Nindo.Common.Common;
 using Nindo.Mobile.Models;
 using Nindo.Mobile.Services;
-using Nindo.Net;
+using Nindo.Mobile.Services.Implementations;
 using Nindo.Net.Models;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Nindo.Mobile.ViewModels
@@ -19,8 +17,6 @@ namespace Nindo.Mobile.ViewModels
         public ViralViewModel()
         {
             Task.Run(async () => await GetViralAsync());
-            var test = ViralData;
-            var ree = test;
 
             OpenDetailPageAsyncCommand = new Command<ViralTypes>(OpenDetailPageAsync);
             ViralData = new ObservableCollection<Viral>();
@@ -28,8 +24,8 @@ namespace Nindo.Mobile.ViewModels
 
         private async Task GetViralAsync()
         {
-            var client = new NindoClient();
-            var items = await client.GetViralsAsync();
+            var apiService = new ApiService();
+            var items = await apiService.GetViralsAsync();
             foreach (var i in items)
             {
                 ViralData.Add(i);

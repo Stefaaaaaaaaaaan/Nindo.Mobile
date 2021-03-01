@@ -40,7 +40,6 @@ namespace Nindo.Mobile.Tests.Converters
         [TestCase(678.83)]
         [TestCase(-1243.561)]
         [TestCase(-156756)]
-
         public void Convert_InvalidCast(object platform)
         {
             // Arrange

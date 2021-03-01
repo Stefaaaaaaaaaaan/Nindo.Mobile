@@ -2,7 +2,7 @@
 using Nindo.Net.Models;
 using Nindo.Net.Models.Enums;
 using Nindo.Common.Common;
-using Nindo.Net;
+using Nindo.Mobile.Services.Implementations;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Size = Nindo.Net.Models.Enums.Size;
@@ -35,26 +35,27 @@ namespace Nindo.Mobile.ViewModels
         {
             try
             {
+
                 if (Items.Count > 0)
                 {
                     ClearCollections();
                     CurrentPlatform = "youtube";
                 }
 
-                var client = new NindoClient();
+                var apiService = new ApiService();
                 await Task.Run(async () =>
                 {
-                    Youtube.AddRange(await client.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small));
+                    Youtube.AddRange(await apiService.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small));
                     Items.AddRange(Youtube);
                     if(string.IsNullOrEmpty(CurrentPlatform))
                         CurrentPlatform = "youtube";
                 });
                 await Task.Run(async () =>
                 {
-                    Instagram.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.Instagram, Size.Small));
-                    Tiktok.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.TikTok, Size.Small));
-                    Twitter.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.Twitter, Size.Small));
-                    Twitch.AddRange(await client.GetViewersScoreboardAsync(Size.Small));
+                    Instagram.AddRange(await apiService.GetLikesScoreboardAsync(RankLikesPlatform.Instagram, Size.Small));
+                    Tiktok.AddRange(await apiService.GetLikesScoreboardAsync(RankLikesPlatform.TikTok, Size.Small));
+                    Twitter.AddRange(await apiService.GetLikesScoreboardAsync(RankLikesPlatform.Twitter, Size.Small));
+                    Twitch.AddRange(await apiService.GetViewersScoreboardAsync(Size.Small));
                 });
 
             }
