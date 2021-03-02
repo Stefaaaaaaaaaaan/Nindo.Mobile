@@ -106,4 +106,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Nindo.Common\Nindo.Common.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="TemplateSelectors\" />
+	</ItemGroup>
 </Project>

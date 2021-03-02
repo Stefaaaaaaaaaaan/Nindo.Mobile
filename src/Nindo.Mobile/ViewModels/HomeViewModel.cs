@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Nindo.Common.Common;
 using Nindo.Mobile.Services.Implementations;
@@ -12,105 +14,21 @@ namespace Nindo.Mobile.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
-        private string _currentPlatform;
+        #region commands
 
+        public IAsyncCommand RefreshCommand { get; }
+        public Command<string> ChangePlatformCommand { get; }
 
-        private RangeObservableCollection<Rank> _instagram;
-
-        private RangeObservableCollection<Rank> _items;
-
-        private RangeObservableCollection<Rank> _tiktok;
-
-        private RangeObservableCollection<Rank> _twitch;
-
-        private RangeObservableCollection<Rank> _twitter;
-
-        private RangeObservableCollection<Rank> _youtube;
+        #endregion
 
         public HomeViewModel()
         {
             Title = "Nindo";
 
             Items = new RangeObservableCollection<Rank>();
-            Youtube = new RangeObservableCollection<Rank>();
-            Instagram = new RangeObservableCollection<Rank>();
-            Tiktok = new RangeObservableCollection<Rank>();
-            Twitter = new RangeObservableCollection<Rank>();
-            Twitch = new RangeObservableCollection<Rank>();
 
-            RefreshCommand = new AsyncCommand(RefreshRanksAsync, CanExecuteLoad);
-            ChangePlatformCommand = new Command<string>(ChangePlatform, CanExecuteLoad);
-        }
-
-        public RangeObservableCollection<Rank> Items
-        {
-            get => _items;
-            set
-            {
-                _items = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RangeObservableCollection<Rank> Youtube
-        {
-            get => _youtube;
-            set
-            {
-                _youtube = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RangeObservableCollection<Rank> Instagram
-        {
-            get => _instagram;
-            set
-            {
-                _instagram = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RangeObservableCollection<Rank> Tiktok
-        {
-            get => _tiktok;
-            set
-            {
-                _tiktok = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RangeObservableCollection<Rank> Twitter
-        {
-            get => _twitter;
-            set
-            {
-                _twitter = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RangeObservableCollection<Rank> Twitch
-        {
-            get => _twitch;
-            set
-            {
-                _twitch = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string CurrentPlatform
-        {
-            get => _currentPlatform;
-            set
-            {
-                if (_currentPlatform == value) return;
-                _currentPlatform = value;
-                OnPropertyChanged();
-            }
+            RefreshCommand = new AsyncCommand(RefreshRanksAsync, CanExecute);
+            ChangePlatformCommand = new Command<string>(ChangePlatform, CanExecute);
         }
 
         public async Task LoadRanksAsync()
@@ -217,6 +135,8 @@ namespace Nindo.Mobile.ViewModels
                         Items.AddRange(Twitch);
                         CurrentPlatform = "twitch";
                         break;
+                    default:
+                        throw new InvalidOperationException("Invalid platform!");
                 }
             }
             finally
@@ -225,7 +145,7 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
-        private bool CanExecuteLoad(object arg)
+        private bool CanExecute(object arg)
         {
             return !IsBusy;
         }
@@ -240,11 +160,37 @@ namespace Nindo.Mobile.ViewModels
             Twitch.Clear();
         }
 
-        #region commands
+        private RangeObservableCollection<Rank> _items;
+        public RangeObservableCollection<Rank> Items
+        {
+            get => _items;
+            set
+            {
+                _items = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public IAsyncCommand RefreshCommand { get; }
-        public Command<string> ChangePlatformCommand { get; }
+        private RangeObservableCollection<Rank> Youtube { get; } = new RangeObservableCollection<Rank>();
 
-        #endregion
+        private RangeObservableCollection<Rank> Instagram { get; } = new RangeObservableCollection<Rank>();
+
+        private RangeObservableCollection<Rank> Tiktok { get; } = new RangeObservableCollection<Rank>();
+
+        private RangeObservableCollection<Rank> Twitter { get; } = new RangeObservableCollection<Rank>();
+
+        private RangeObservableCollection<Rank> Twitch { get; } = new RangeObservableCollection<Rank>();
+
+        private string _currentPlatform;
+        public string CurrentPlatform
+        {
+            get => _currentPlatform;
+            set
+            {
+                if (_currentPlatform == value) return;
+                _currentPlatform = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }
