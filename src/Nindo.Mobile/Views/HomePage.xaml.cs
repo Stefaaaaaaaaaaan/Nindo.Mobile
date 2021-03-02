@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,24 @@ namespace Nindo.Mobile.Views
         public HomePage()
         {
             InitializeComponent();
+            BindingContext = new HomeViewModel();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (BindingContext is HomeViewModel vm && vm.Items.Count == 0)
+            {
+                vm.LoadRanksAsync()
+                    .ContinueWith(t =>
+                    {
+                        if (t.IsFaulted)
+                        {
+                            Debug.WriteLine(t.Exception?.Message);
+                        }
+                    });
+            }
         }
     }
 }

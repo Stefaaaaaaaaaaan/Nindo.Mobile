@@ -13,5 +13,9 @@ namespace Nindo.Mobile.Services
         public Task<Rank[]> GetViewersScoreboardAsync(Size size);
 
         public Task<Viral[]> GetViralsAsync();
+
+        public Task<Milestone[]> GetMilestonesAsync();
+
+        public Task<Milestone[]> GetPastMilestonesAsync();
     }
 }

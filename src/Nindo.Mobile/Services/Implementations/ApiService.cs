@@ -33,5 +33,15 @@ namespace Nindo.Mobile.Services.Implementations
         {
             return await _nindoClient.GetViralsAsync();
         }
+
+        public async Task<Milestone[]> GetMilestonesAsync()
+        {
+            return await _nindoClient.GetMilestonesAsync();
+        }
+
+        public async Task<Milestone[]> GetPastMilestonesAsync()
+        {
+            return await _nindoClient.GetPastMilestonesAsync();
+        }
     }
 }

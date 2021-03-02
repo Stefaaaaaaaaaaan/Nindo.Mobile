@@ -12,9 +12,6 @@
              x:Class="Nindo.Mobile.Views.HomePage"
              Title="{Binding Title}">
 
-    <ContentPage.BindingContext>
-        <viewModels:HomeViewModel />
-    </ContentPage.BindingContext>
 
     <ContentPage.Resources>
         <converters:MetricConverter x:Key="longToMetricConverter"/>
@@ -22,7 +19,7 @@
 
     <ContentPage.Content>
         <Grid>
-            <RefreshView x:Name="InnerRefreshView" Command="{Binding LoadCommand}" CommandParameter="{Binding CurrentPlatform}" IsRefreshing="{Binding IsBusy}">
+            <RefreshView x:Name="InnerRefreshView" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
                 <StackLayout>
                     <CollectionView x:Name="InnerCollectionView" ItemsSource="{Binding Items}">
                         <CollectionView.Header>

@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Nindo.Net.Models;
 using Nindo.Net.Models.Enums;
 using Nindo.Common.Common;
+using Nindo.Mobile.Services;
 using Nindo.Mobile.Services.Implementations;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -11,12 +13,15 @@ namespace Nindo.Mobile.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
-        public IAsyncCommand LoadCommand { get; }
+        #region commands
+        public IAsyncCommand RefreshCommand { get; }
         public Command<string> ChangePlatformCommand { get; }
+        #endregion
 
         public HomeViewModel()
         {
             Title = "Nindo";
+
             Items = new RangeObservableCollection<Rank>();
             Youtube = new RangeObservableCollection<Rank>();
             Instagram = new RangeObservableCollection<Rank>();
@@ -24,38 +29,67 @@ namespace Nindo.Mobile.ViewModels
             Twitter = new RangeObservableCollection<Rank>();
             Twitch = new RangeObservableCollection<Rank>();
 
-            Task.Run(async () => await LoadRanksAsync());
-
-            LoadCommand = new AsyncCommand(LoadRanksAsync, CanExecuteLoad);
+            RefreshCommand = new AsyncCommand(RefreshRanksAsync, CanExecuteLoad);
             ChangePlatformCommand = new Command<string>(ChangePlatform, CanExecuteLoad);
 
         }
 
-        private async Task LoadRanksAsync()
+        public async Task LoadRanksAsync()
         {
             try
             {
-
-                if (Items.Count > 0)
-                {
-                    ClearCollections();
-                    CurrentPlatform = "youtube";
-                }
+                IsBusy = true;
 
                 var apiService = new ApiService();
+
                 await Task.Run(async () =>
                 {
-                    Youtube.AddRange(await apiService.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small));
-                    Items.AddRange(Youtube);
-                    if(string.IsNullOrEmpty(CurrentPlatform))
-                        CurrentPlatform = "youtube";
-                });
-                await Task.Run(async () =>
-                {
-                    Instagram.AddRange(await apiService.GetLikesScoreboardAsync(RankLikesPlatform.Instagram, Size.Small));
-                    Tiktok.AddRange(await apiService.GetLikesScoreboardAsync(RankLikesPlatform.TikTok, Size.Small));
-                    Twitter.AddRange(await apiService.GetLikesScoreboardAsync(RankLikesPlatform.Twitter, Size.Small));
-                    Twitch.AddRange(await apiService.GetViewersScoreboardAsync(Size.Small));
+                    var youtubeTask = apiService.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small);
+                    var instTask = apiService.GetLikesScoreboardAsync(RankLikesPlatform.Instagram, Size.Small);
+                    var ttTask = apiService.GetLikesScoreboardAsync(RankLikesPlatform.TikTok, Size.Small);
+                    var twitterTask = apiService.GetLikesScoreboardAsync(RankLikesPlatform.Twitter, Size.Small);
+                    var twitchTask = apiService.GetViewersScoreboardAsync(Size.Small);
+
+                    var taskList = new List<Task<Rank[]>>
+                    {
+                        youtubeTask,
+                        instTask,
+                        ttTask,
+                        twitterTask,
+                        twitchTask
+                    };
+
+                    Task<Rank[]> currentTask = null;
+
+                    while (taskList.Count > 0 && (currentTask = await Task.WhenAny(taskList)) != null)
+                    {
+                        taskList.Remove(currentTask);
+
+                        if (currentTask == youtubeTask)
+                        {
+                            Youtube.AddRange(currentTask.Result);
+                            Items.AddRange(Youtube);
+                            if (string.IsNullOrEmpty(CurrentPlatform))
+                                CurrentPlatform = "youtube";
+                        }
+                        else if(currentTask == instTask)
+                        {
+                            Instagram.AddRange(currentTask.Result);
+                        }
+                        else if (currentTask == ttTask)
+                        {
+                            Tiktok.AddRange(currentTask.Result);
+                        }
+                        else if (currentTask == twitterTask)
+                        {
+                            Twitter.AddRange(currentTask.Result);
+                        }
+                        else if (currentTask == twitchTask)
+                        {
+                            Twitch.AddRange(currentTask.Result);
+                        }
+                    }
+
                 });
 
             }
@@ -65,10 +99,18 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
+        private async Task RefreshRanksAsync()
+        {
+            ClearCollections();
+            CurrentPlatform = "youtube";
+            await LoadRanksAsync();
+        }
+
         private void ChangePlatform(string platform)
         {
             try
             {
+                IsBusy = true;
                 if (CurrentPlatform == platform)
                     return;
 
