@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using Nindo.Net.Models;
 using Xamarin.Forms;
 
 namespace Nindo.Mobile.Converters
@@ -11,22 +10,17 @@ namespace Nindo.Mobile.Converters
         {
             if (value == null)
                 return null;
-            var platform = (string)value;
-            switch (platform)
+            var platform = (string) value;
+
+            return platform switch
             {
-                case "twitch":
-                    return "twitchGrey.png";
-                case "instagram":
-                    return "instagramGrey.png";
-                case "twitter":
-                    return "twitterGrey.png";
-                case "tiktok":
-                    return "tiktokGrey.png";
-                case "youtube":
-                    return "youtubeGrey.png";
-                default:
-                    return "youtubeGrey.png";
-            }
+                "twitch" => "twitchGrey.png",
+                "instagram" => "instagramGrey.png",
+                "twitter" => "twitterGrey.png",
+                "tiktok" => "tiktokGrey.png",
+                "youtube" => "youtubeGrey.png",
+                _ => "youtubeGrey.png"
+            };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

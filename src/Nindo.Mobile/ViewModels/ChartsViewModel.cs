@@ -11,10 +11,7 @@ namespace Nindo.Mobile.ViewModels
 
         protected bool SetAndRaise<T>(ref T property, T value, [CallerMemberName] string propertyName = null)
         {
-            if (Equals(property, value))
-            {
-                return false;
-            }
+            if (Equals(property, value)) return false;
 
             property = value;
             OnPropertyChanged(propertyName);

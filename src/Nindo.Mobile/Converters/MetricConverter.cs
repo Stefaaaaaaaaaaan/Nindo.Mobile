@@ -11,15 +11,15 @@ namespace Nindo.Mobile.Converters
         {
             if (value == null)
                 return null;
-            var number = (long)value;
-            return System.Convert.ToDouble(number).ToMetric(decimals:1);
+            var number = (long) value;
+            return System.Convert.ToDouble(number).ToMetric(decimals: 1);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
                 return null;
-            var metric = (string)value;
+            var metric = (string) value;
             return System.Convert.ToString(metric).FromMetric();
         }
     }

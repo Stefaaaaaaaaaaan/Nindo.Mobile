@@ -86,7 +86,8 @@ namespace Nindo.Mobile.Tests.Converters
             // Arrange
             var converter = new MetricConverter();
 
-            Assert.Throws<InvalidCastException>(() => converter.ConvertBack(value, null, null, CultureInfo.CurrentCulture));
+            Assert.Throws<InvalidCastException>(() =>
+                converter.ConvertBack(value, null, null, CultureInfo.CurrentCulture));
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Nindo.Mobile.Models;
-using Nindo.Mobile.ViewModels;
+﻿using Nindo.Mobile.ViewModels;
 using Nindo.Mobile.Views;
 using Nindo.Net.Models;
 using Xamarin.Forms;
@@ -19,7 +17,6 @@ namespace Nindo.Mobile.Services
 
                 twitchViralDetailPage.BindingContext = twitchViralDetailPageViewModel;
                 await Application.Current.MainPage.Navigation.PushAsync(twitchViralDetailPage, true);
-
             }
             else
             {
@@ -29,8 +26,6 @@ namespace Nindo.Mobile.Services
                 viralDetailPage.BindingContext = viralDetailPageViewModel;
                 await Application.Current.MainPage.Navigation.PushAsync(viralDetailPage, true);
             }
-
-
         }
     }
 }

@@ -33,7 +33,8 @@ namespace Nindo.Mobile.Tests.Converters
             // Arrange
             var converter = new IconConverter();
 
-            Assert.Throws<NotImplementedException>(() => converter.ConvertBack(1, null, null, CultureInfo.CurrentCulture));
+            Assert.Throws<NotImplementedException>(() =>
+                converter.ConvertBack(1, null, null, CultureInfo.CurrentCulture));
         }
 
         [TestCase(123123)]
@@ -45,7 +46,8 @@ namespace Nindo.Mobile.Tests.Converters
             // Arrange
             var converter = new IconConverter();
 
-            Assert.Throws<InvalidCastException>(() => converter.Convert(platform, null, null, CultureInfo.CurrentCulture));
+            Assert.Throws<InvalidCastException>(() =>
+                converter.Convert(platform, null, null, CultureInfo.CurrentCulture));
         }
     }
 }

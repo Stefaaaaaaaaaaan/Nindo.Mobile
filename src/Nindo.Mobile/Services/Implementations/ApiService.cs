@@ -7,7 +7,7 @@ namespace Nindo.Mobile.Services.Implementations
 {
     public class ApiService : IApiService
     {
-        private NindoClient _nindoClient;
+        private readonly NindoClient _nindoClient;
 
         public ApiService()
         {

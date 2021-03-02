@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Nindo.Common.Common;
+using Nindo.Mobile.Services.Implementations;
 using Nindo.Net.Models;
 using Nindo.Net.Models.Enums;
-using Nindo.Common.Common;
-using Nindo.Mobile.Services;
-using Nindo.Mobile.Services.Implementations;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Size = Nindo.Net.Models.Enums.Size;
@@ -13,10 +12,20 @@ namespace Nindo.Mobile.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
-        #region commands
-        public IAsyncCommand RefreshCommand { get; }
-        public Command<string> ChangePlatformCommand { get; }
-        #endregion
+        private string _currentPlatform;
+
+
+        private RangeObservableCollection<Rank> _instagram;
+
+        private RangeObservableCollection<Rank> _items;
+
+        private RangeObservableCollection<Rank> _tiktok;
+
+        private RangeObservableCollection<Rank> _twitch;
+
+        private RangeObservableCollection<Rank> _twitter;
+
+        private RangeObservableCollection<Rank> _youtube;
 
         public HomeViewModel()
         {
@@ -31,7 +40,77 @@ namespace Nindo.Mobile.ViewModels
 
             RefreshCommand = new AsyncCommand(RefreshRanksAsync, CanExecuteLoad);
             ChangePlatformCommand = new Command<string>(ChangePlatform, CanExecuteLoad);
+        }
 
+        public RangeObservableCollection<Rank> Items
+        {
+            get => _items;
+            set
+            {
+                _items = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public RangeObservableCollection<Rank> Youtube
+        {
+            get => _youtube;
+            set
+            {
+                _youtube = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public RangeObservableCollection<Rank> Instagram
+        {
+            get => _instagram;
+            set
+            {
+                _instagram = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public RangeObservableCollection<Rank> Tiktok
+        {
+            get => _tiktok;
+            set
+            {
+                _tiktok = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public RangeObservableCollection<Rank> Twitter
+        {
+            get => _twitter;
+            set
+            {
+                _twitter = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public RangeObservableCollection<Rank> Twitch
+        {
+            get => _twitch;
+            set
+            {
+                _twitch = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string CurrentPlatform
+        {
+            get => _currentPlatform;
+            set
+            {
+                if (_currentPlatform == value) return;
+                _currentPlatform = value;
+                OnPropertyChanged();
+            }
         }
 
         public async Task LoadRanksAsync()
@@ -69,10 +148,9 @@ namespace Nindo.Mobile.ViewModels
                         {
                             Youtube.AddRange(currentTask.Result);
                             Items.AddRange(Youtube);
-                            if (string.IsNullOrEmpty(CurrentPlatform))
-                                CurrentPlatform = "youtube";
+                            CurrentPlatform ??= "youtube";
                         }
-                        else if(currentTask == instTask)
+                        else if (currentTask == instTask)
                         {
                             Instagram.AddRange(currentTask.Result);
                         }
@@ -89,9 +167,7 @@ namespace Nindo.Mobile.ViewModels
                             Twitch.AddRange(currentTask.Result);
                         }
                     }
-
                 });
-
             }
             finally
             {
@@ -164,90 +240,11 @@ namespace Nindo.Mobile.ViewModels
             Twitch.Clear();
         }
 
-        private RangeObservableCollection<Rank> _items;
+        #region commands
 
-        public RangeObservableCollection<Rank> Items
-        {
-            get => _items;
-            set
-            {
-                _items = value;
-                OnPropertyChanged();
-            }
-        }
+        public IAsyncCommand RefreshCommand { get; }
+        public Command<string> ChangePlatformCommand { get; }
 
-        private RangeObservableCollection<Rank> _youtube;
-
-        public RangeObservableCollection<Rank> Youtube
-        {
-            get => _youtube;
-            set
-            {
-                _youtube = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        private RangeObservableCollection<Rank> _instagram;
-
-        public RangeObservableCollection<Rank> Instagram
-        {
-            get => _instagram;
-            set
-            {
-                _instagram = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private RangeObservableCollection<Rank> _tiktok;
-
-        public RangeObservableCollection<Rank> Tiktok
-        {
-            get => _tiktok;
-            set
-            {
-                _tiktok = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private RangeObservableCollection<Rank> _twitter;
-
-        public RangeObservableCollection<Rank> Twitter
-        {
-            get => _twitter;
-            set
-            {
-                _twitter = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private RangeObservableCollection<Rank> _twitch;
-
-        public RangeObservableCollection<Rank> Twitch
-        {
-            get => _twitch;
-            set
-            {
-                _twitch = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private string _currentPlatform;
-
-        public string CurrentPlatform
-        {
-            get => _currentPlatform;
-            set
-            {
-                if (_currentPlatform == value) return;
-                _currentPlatform = value;
-                OnPropertyChanged();
-            }
-        }
+        #endregion
     }
 }
