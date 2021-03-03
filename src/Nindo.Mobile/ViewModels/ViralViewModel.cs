@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Nindo.Common.Common;
 using Nindo.Mobile.Models;
 using Nindo.Mobile.Services;
 using Nindo.Mobile.Services.Implementations;
@@ -12,64 +13,79 @@ namespace Nindo.Mobile.ViewModels
 {
     public class ViralViewModel : ViewModelBase
     {
-        public Command<ViralTypes> OpenDetailPageAsyncCommand { get; }
+        public Command<ViralTypes> OpenDetailPageCommand { get; }
 
         public ViralViewModel()
         {
-            Task.Run(async () => await GetViralAsync());
-
-            OpenDetailPageAsyncCommand = new Command<ViralTypes>(OpenDetailPageAsync);
-            ViralData = new ObservableCollection<Viral>();
+            OpenDetailPageCommand = new Command<ViralTypes>(OpenDetailPageAsync);
         }
 
-        private async Task GetViralAsync()
+        public async Task GetViralAsync()
         {
-            var apiService = new ApiService();
-            var items = await apiService.GetViralsAsync();
-            foreach (var i in items)
+            try
             {
-                ViralData.Add(i);
+                IsBusy = true;
+
+                var apiService = new ApiService();
+                var items = await apiService.GetViralsAsync();
+                ViralData.AddRange(items);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
         private void OpenDetailPageAsync(ViralTypes type)
         {
-            var viralEntry = type switch
+            try
             {
-                ViralTypes.TwitchMaxViewer => ViralData.First(x => x.Platform == "twitch" && x.Type == "max. zuschauer"),
-                ViralTypes.TwitchLongestStream => ViralData.First(x => x.Platform == "twitch" && x.Type == "längster stream"),
-                ViralTypes.TwitterLikes => ViralData.First(x => x.Platform == "twitter" && x.Type == "likes"),
-                ViralTypes.TwitterRetweets => ViralData.First(x => x.Platform == "twitter" && x.Type == "retweets"),
-                ViralTypes.TiktokLikes => ViralData.First(x => x.Platform == "tiktok" && x.Type == "likes"),
-                ViralTypes.TiktokComments => ViralData.First(x => x.Platform == "tiktok" && x.Type == "kommentare"),
-                ViralTypes.TiktokViews => ViralData.First(x => x.Platform == "tiktok" && x.Type == "views"),
-                ViralTypes.YoutubeLikes => ViralData.First(x => x.Platform == "youtube" && x.Type == "likes"),
-                ViralTypes.YoutubeComments => ViralData.First(x => x.Platform == "youtube" && x.Type == "kommentare"),
-                ViralTypes.YoutubeViews => ViralData.First(x => x.Platform == "youtube" && x.Type == "views"),
-                ViralTypes.InstagramLikes => ViralData.First(x => x.Platform == "instagram" && x.Type == "likes"),
-                ViralTypes.InstagramComments => ViralData.First(x => x.Platform == "instagram" && x.Type == "kommentare"),
-                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
-            };
+                IsBusy = true;
 
-            var nav = new NavigationService();
-            nav.OpenViralDetailPage(viralEntry);
+                var viralEntry = type switch
+                {
+                    ViralTypes.TwitchMaxViewer => ViralData.First(x =>
+                        x.Platform == "twitch" && x.Type == "max. zuschauer"),
+                    ViralTypes.TwitchLongestStream => ViralData.First(x =>
+                        x.Platform == "twitch" && x.Type == "längster stream"),
+                    ViralTypes.TwitterLikes => ViralData.First(x =>
+                        x.Platform == "twitter" && x.Type == "likes"),
+                    ViralTypes.TwitterRetweets => ViralData.First(x =>
+                        x.Platform == "twitter" && x.Type == "retweets"),
+                    ViralTypes.TiktokLikes => ViralData.First(x =>
+                        x.Platform == "tiktok" && x.Type == "likes"),
+                    ViralTypes.TiktokComments => ViralData.First(x =>
+                        x.Platform == "tiktok" && x.Type == "kommentare"),
+                    ViralTypes.TiktokViews => ViralData.First(x =>
+                        x.Platform == "tiktok" && x.Type == "views"),
+                    ViralTypes.YoutubeLikes => ViralData.First(x =>
+                        x.Platform == "youtube" && x.Type == "likes"),
+                    ViralTypes.YoutubeComments => ViralData.First(x =>
+                        x.Platform == "youtube" && x.Type == "kommentare"),
+                    ViralTypes.YoutubeViews => ViralData.First(x =>
+                        x.Platform == "youtube" && x.Type == "views"),
+                    ViralTypes.InstagramLikes => ViralData.First(x =>
+                        x.Platform == "instagram" && x.Type == "likes"),
+                    ViralTypes.InstagramComments => ViralData.First(x =>
+                        x.Platform == "instagram" && x.Type == "kommentare"),
+                    _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+                };
+
+                var nav = new NavigationService();
+                nav.OpenViralDetailPage(viralEntry);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
         }
 
-        private bool CanExecuteLoad(object arg)
+        private bool CanExecute(object arg)
         {
             return !IsBusy;
         }
 
-        private ObservableCollection<Viral> _viralDataData;
-
-        public ObservableCollection<Viral> ViralData
-        {
-            get => _viralDataData;
-            set
-            {
-                _viralDataData = value;
-                OnPropertyChanged();
-            }
-        }
+        public RangeObservableCollection<Viral> ViralData { get; } = new RangeObservableCollection<Viral>();
     }
 }

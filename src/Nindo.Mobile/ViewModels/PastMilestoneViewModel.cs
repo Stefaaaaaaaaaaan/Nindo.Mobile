@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmHelpers.Commands;
 using Nindo.Mobile.Services.Implementations;
-using Nindo.Net;
 using Nindo.Net.Models;
 
 namespace Nindo.Mobile.ViewModels

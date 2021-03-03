@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
 using Humanizer;
-using Nindo.Mobile.Models;
 using Nindo.Net.Models;
 
 namespace Nindo.Mobile.ViewModels
@@ -13,8 +10,15 @@ namespace Nindo.Mobile.ViewModels
         {
             ViralEntry = viral;
             Title = $"{ViralEntry.Platform.Humanize()} {ViralEntry.Type.Humanize()}";
-            GetContentUrl();
-            GetFirstDayOfCurrentMonth();
+        }
+
+        public void SetupViewModel()
+        {
+            if (!ViralEntry.Platform.Equals("twitch"))
+            {
+                GetContentUrl();
+                GetFirstDayOfCurrentMonth();
+            }
         }
 
         private void GetContentUrl()

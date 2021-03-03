@@ -29,33 +29,33 @@
         <ScrollView>
             <StackLayout>
                 <Label>YouTube</Label>
-                <Button Text="Views" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Views" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource YoutubeViews}" />
-                <Button Text="Likes" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Likes" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource YoutubeLikes}" />
-                <Button Text="Kommentare" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Kommentare" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource YoutubeComments}" />
                 <Label>TikTok</Label>
-                <Button Text="Views" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Views" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource TiktokViews}" />
-                <Button Text="Likes" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Likes" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource TiktokLikes}" />
-                <Button Text="Kommentare" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Kommentare" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource TiktokComments}" />
                 <Label>Twitch</Label>
-                <Button Text="Max. Zuschauer" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Max. Zuschauer" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource TwitchMaxViewer}" />
-                <Button Text="Längster Stream" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Längster Stream" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource TwitchLongestStream}" />
                 <Label>Instagram</Label>
-                <Button Text="Likes" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Likes" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource InstagramLikes}" />
-                <Button Text="Kommentare" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Kommentare" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource InstagramComments}" />
                 <Label>Twitter</Label>
-                <Button Text="Likes" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Likes" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource TwitterLikes}" />
-                <Button Text="Retweets" Command="{Binding OpenDetailPageAsyncCommand}"
+                <Button Text="Retweets" Command="{Binding OpenDetailPageCommand}"
                         CommandParameter="{StaticResource TwitterRetweets}" />
             </StackLayout>
         </ScrollView>

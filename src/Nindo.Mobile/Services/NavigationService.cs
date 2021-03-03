@@ -11,19 +11,12 @@ namespace Nindo.Mobile.Services
         {
             if (viralEntry.Platform.Equals("twitch"))
             {
-                var twitchViralDetailPage = new TwitchViralDetailPage();
-                var twitchViralDetailPageViewModel = new TwitchViralDetailPageViewModel(viralEntry);
-
-
-                twitchViralDetailPage.BindingContext = twitchViralDetailPageViewModel;
+                var twitchViralDetailPage = new TwitchViralDetailPage(viralEntry);
                 await Application.Current.MainPage.Navigation.PushAsync(twitchViralDetailPage, true);
             }
             else
             {
-                var viralDetailPage = new ViralDetailPage();
-                var viralDetailPageViewModel = new ViralDetailPageViewModel(viralEntry);
-
-                viralDetailPage.BindingContext = viralDetailPageViewModel;
+                var viralDetailPage = new ViralDetailPage(viralEntry);
                 await Application.Current.MainPage.Navigation.PushAsync(viralDetailPage, true);
             }
         }
