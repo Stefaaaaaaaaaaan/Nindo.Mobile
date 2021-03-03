@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Nindo.Common.Common;
@@ -7,17 +6,17 @@ using Nindo.Mobile.Models;
 using Nindo.Mobile.Services;
 using Nindo.Mobile.Services.Implementations;
 using Nindo.Net.Models;
-using Xamarin.Forms;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Nindo.Mobile.ViewModels
 {
     public class ViralViewModel : ViewModelBase
     {
-        public Command<ViralTypes> OpenDetailPageCommand { get; }
+        public IAsyncCommand<ViralTypes> OpenDetailPageCommand { get; }
 
         public ViralViewModel()
         {
-            OpenDetailPageCommand = new Command<ViralTypes>(OpenDetailPageAsync);
+            OpenDetailPageCommand = new AsyncCommand<ViralTypes>(OpenDetailPageAsync, CanExecute);
         }
 
         public async Task GetViralAsync()
@@ -36,11 +35,14 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
-        private void OpenDetailPageAsync(ViralTypes type)
+        private async Task OpenDetailPageAsync(ViralTypes type)
         {
             try
             {
                 IsBusy = true;
+
+                if (ViralData.Count == 0)
+                    await GetViralAsync();
 
                 var viralEntry = type switch
                 {
@@ -72,7 +74,7 @@ namespace Nindo.Mobile.ViewModels
                 };
 
                 var nav = new NavigationService();
-                nav.OpenViralDetailPage(viralEntry);
+                await nav.OpenViralDetailPage(viralEntry);
             }
             finally
             {

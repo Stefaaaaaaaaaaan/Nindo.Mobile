@@ -1,13 +1,13 @@
-﻿using Nindo.Mobile.ViewModels;
+﻿using System.Threading.Tasks;
 using Nindo.Mobile.Views;
 using Nindo.Net.Models;
 using Xamarin.Forms;
 
-namespace Nindo.Mobile.Services
+namespace Nindo.Mobile.Services.Implementations
 {
-    public class NavigationService
+    public class NavigationService : INavigationService
     {
-        public async void OpenViralDetailPage(Viral viralEntry)
+        public async Task OpenViralDetailPage(Viral viralEntry)
         {
             if (viralEntry.Platform.Equals("twitch"))
             {
