@@ -14,10 +14,29 @@ namespace Nindo.Mobile.ViewModels
 
         public void SetupViewModel()
         {
-            if (!ViralEntry.Platform.Equals("twitch"))
+            GetContentUrl();
+
+            if (ViralEntry.Platform.Equals("twitch"))
             {
-                GetContentUrl();
+                GetTwitchInfoMessage();
+            }
+            else
+            {
                 GetFirstDayOfCurrentMonth();
+            }
+        }
+
+        private void GetTwitchInfoMessage()
+        {
+            if ("max. zuschauer".Equals(ViralEntry.Type))
+            {
+                TwitchValue = $"{ViralEntry.Value:N0}";
+                InfoMessage = "Live Zuschauer";
+            }
+            else
+            {
+                var span = TimeSpan.FromMinutes(ViralEntry.Value);
+                TwitchValue = $"{Math.Round(span.TotalHours)} Stunden {span.Minutes} Minuten";
             }
         }
 
@@ -43,6 +62,11 @@ namespace Nindo.Mobile.ViewModels
                 case "instagram":
                     ContentUrl = $"https://www.instagram.com/p/{ViralEntry.PostId}/embed/?cr=1&v=12&wp=64&rd=https%3A%2F%2Fnindo.de&rp=%2Fviral#%7B%22ci%22%3A0%2C%22os%22%3A1799.8050000001058%2C%22ls%22%3A545.0650000002497%2C%22le%22%3A545.91500000015%7D";
                     Height = 750;
+                    Width = 500;
+                    break;
+                case "twitch":
+                    ContentUrl = $"https://player.twitch.tv/?channel={ViralEntry.Post.Channel.ArtistBase.Name}&muted=true&parent=streamernews.example.com";
+                    Height = 250;
                     Width = 500;
                     break;
             }
@@ -111,6 +135,30 @@ namespace Nindo.Mobile.ViewModels
             set
             {
                 _width = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _infoMessage;
+
+        public string InfoMessage
+        {
+            get => _infoMessage;
+            set
+            {
+                _infoMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _twitchValue;
+
+        public string TwitchValue
+        {
+            get => _twitchValue;
+            set
+            {
+                _twitchValue = value;
                 OnPropertyChanged();
             }
         }
