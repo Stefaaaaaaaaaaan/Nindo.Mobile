@@ -7,15 +7,20 @@ using Nindo.Mobile.Services;
 using Nindo.Mobile.Services.Implementations;
 using Nindo.Net.Models;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Nindo.Mobile.ViewModels
 {
     public class ViralViewModel : ViewModelBase
     {
+        private readonly IApiService _apiService;
+        private readonly INavigationService _navigationService;
         public IAsyncCommand<ViralTypes> OpenDetailPageCommand { get; }
 
-        public ViralViewModel()
+        public ViralViewModel(IApiService apiService, INavigationService navigationService)
         {
+            _apiService = apiService;
+            _navigationService = navigationService;
             OpenDetailPageCommand = new AsyncCommand<ViralTypes>(OpenDetailPageAsync, CanExecute);
         }
 
@@ -25,9 +30,11 @@ namespace Nindo.Mobile.ViewModels
             {
                 IsBusy = true;
 
-                var apiService = new ApiService();
-                var items = await apiService.GetViralsAsync();
+                var items = await _apiService.GetViralsAsync();
                 ViralData.AddRange(items);
+                Device.BeginInvokeOnMainThread(() => {
+                    OpenDetailPageCommand.RaiseCanExecuteChanged();
+                });
             }
             finally
             {
@@ -40,9 +47,6 @@ namespace Nindo.Mobile.ViewModels
             try
             {
                 IsBusy = true;
-
-                if (ViralData.Count == 0)
-                    await GetViralAsync();
 
                 var viralEntry = type switch
                 {
@@ -73,8 +77,7 @@ namespace Nindo.Mobile.ViewModels
                     _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
                 };
 
-                var nav = new NavigationService();
-                await nav.OpenViralDetailPage(viralEntry);
+                await _navigationService.OpenViralDetailPage(viralEntry);
             }
             finally
             {
@@ -85,7 +88,7 @@ namespace Nindo.Mobile.ViewModels
 
         private bool CanExecute(object arg)
         {
-            return !IsBusy;
+            return !IsBusy && ViralData.Any();
         }
 
         public RangeObservableCollection<Viral> ViralData { get; } = new RangeObservableCollection<Viral>();

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Nindo.Mobile.Services.Implementations;
 using Nindo.Mobile.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -10,6 +11,7 @@ namespace Nindo.Mobile.Views
     {
         public ViralPage()
         {
+            BindingContext = new ViralViewModel(new ApiService(), new NavigationService());
             InitializeComponent();
         }
 

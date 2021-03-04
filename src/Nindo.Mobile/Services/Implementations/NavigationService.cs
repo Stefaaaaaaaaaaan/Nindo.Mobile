@@ -9,7 +9,7 @@ namespace Nindo.Mobile.Services.Implementations
     {
         public async Task OpenViralDetailPage(Viral viralEntry)
         {
-            if (viralEntry.Platform.Equals("twitch"))
+            if ("twitch".Equals(viralEntry.Platform))
             {
                 var twitchViralDetailPage = new TwitchViralDetailPage(viralEntry);
                 await Application.Current.MainPage.Navigation.PushAsync(twitchViralDetailPage, true);

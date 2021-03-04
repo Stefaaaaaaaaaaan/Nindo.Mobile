@@ -4,11 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
              xmlns:m="clr-namespace:Nindo.Mobile.Models;assembly=Nindo.Mobile"
-             x:Class="Nindo.Mobile.Views.ViralPage">
-
-    <ContentPage.BindingContext>
-        <viewModels:ViralViewModel />
-    </ContentPage.BindingContext>
+             x:Class="Nindo.Mobile.Views.ViralPage"
+             x:DataType="viewModels:ViralViewModel">
 
     <ContentPage.Resources>
         <m:ViralTypes x:Key="TwitchMaxViewer">TwitchMaxViewer</m:ViralTypes>
