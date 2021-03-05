@@ -10,7 +10,6 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-        <RefreshView x:Name="InnerRefreshView">
             <StackLayout>
                 <CollectionView x:Name="InnerCollectionView">
                     <CollectionView.ItemTemplate>
@@ -61,6 +60,5 @@
                     </CollectionView.Footer>
                 </CollectionView>
             </StackLayout>
-        </RefreshView>
     </ContentView.Content>
 </ContentView>

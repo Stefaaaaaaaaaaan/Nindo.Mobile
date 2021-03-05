@@ -9,9 +9,6 @@ namespace Nindo.Mobile.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MilestonesTemplate : ContentView
     {
-        public static readonly BindableProperty RefreshViewCommandProperty =
-            BindableProperty.Create(nameof(RefreshViewCommand), typeof(ICommand), typeof(MilestonesTemplate));
-
         public static readonly BindableProperty LabelTextProperty =
             BindableProperty.Create(nameof(LabelText), typeof(string), typeof(MilestonesTemplate));
 
@@ -26,15 +23,8 @@ namespace Nindo.Mobile.Controls
 
             InnerCollectionView.SetBinding(ItemsView.ItemsSourceProperty,
                 new Binding(nameof(CollectionViewScoreboard), source: this));
-            InnerRefreshView.SetBinding(RefreshView.CommandProperty,
-                new Binding(nameof(RefreshViewCommand), source: this));
+          
             Label.SetBinding(Label.TextProperty, new Binding(nameof(LabelText), source: this));
-        }
-
-        public ICommand RefreshViewCommand
-        {
-            get => (ICommand) GetValue(RefreshViewCommandProperty);
-            set => SetValue(RefreshViewCommandProperty, value);
         }
 
         public string LabelText

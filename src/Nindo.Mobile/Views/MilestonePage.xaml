@@ -2,11 +2,24 @@
 
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:Views="clr-namespace:Nindo.Mobile.Views"
+            xmlns:controls="clr-namespace:Nindo.Mobile.Controls;assembly=Nindo.Mobile"
+            xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
             x:Class="Nindo.Mobile.Views.MilestonePage"
             Title="Milestones"
             BarBackgroundColor="#8552b4"
-            Shell.NavBarHasShadow="False">
-    <!--Pages can be added as references or inline-->
-    <Views:PastMilestonePage Title="Letzte Meilensteine" />
-    <Views:NewMilestonePage Title="Nächste Meilensteine" />
+            Shell.NavBarHasShadow="False"
+            ItemsSource="{Binding Milestones}">
+
+    <TabbedPage.ItemTemplate>
+        <DataTemplate>
+            <ContentPage Title="{Binding MilestoneTitle}">
+                <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+                    <controls:MilestonesTemplate
+                        CollectionViewScoreboard="{Binding Milestone}"
+                        LabelText="Aktuelle Follower" />
+                </RefreshView>
+            </ContentPage>
+        </DataTemplate>
+    </TabbedPage.ItemTemplate>
+
 </TabbedPage>
