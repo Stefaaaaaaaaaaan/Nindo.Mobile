@@ -125,25 +125,25 @@
                                 <DataTrigger TargetType="Image"
                                              Binding="{Binding Source={RelativeSource AncestorType={x:Type toolkit:Expander}}, Path=IsExpanded}"
                                              Value="True">
-                                    <Setter Property="Source" Value="closeWhite.png" />
+                                    <Setter Property="Source" Value="close_white.png" />
                                 </DataTrigger>
                             </Image.Triggers>
                         </Image>
                     </toolkit:Expander.Header>
                     <StackLayout Spacing="30" Margin="0,20">
-                        <ImageButton Source="youtubeWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180"
+                        <ImageButton Source="youtube_white.png" WidthRequest="30" HeightRequest="30" Rotation="180"
                                      BackgroundColor="Transparent" Command="{Binding ChangePlatformCommand}"
                                      CommandParameter="youtube" />
-                        <ImageButton Source="instagramWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180"
+                        <ImageButton Source="instagram_white.png" WidthRequest="30" HeightRequest="30" Rotation="180"
                                      BackgroundColor="Transparent" Command="{Binding ChangePlatformCommand}"
                                      CommandParameter="instagram" />
-                        <ImageButton Source="tiktokWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180"
+                        <ImageButton Source="tiktok_white.png" WidthRequest="30" HeightRequest="30" Rotation="180"
                                      BackgroundColor="Transparent" Command="{Binding ChangePlatformCommand}"
                                      CommandParameter="tiktok" />
-                        <ImageButton Source="twitterWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180"
+                        <ImageButton Source="twitter_white.png" WidthRequest="30" HeightRequest="30" Rotation="180"
                                      BackgroundColor="Transparent" Command="{Binding ChangePlatformCommand}"
                                      CommandParameter="twitter" />
-                        <ImageButton Source="twitchWhite.png" WidthRequest="30" HeightRequest="30" Rotation="180"
+                        <ImageButton Source="twitch_white.png" WidthRequest="30" HeightRequest="30" Rotation="180"
                                      BackgroundColor="Transparent" Command="{Binding ChangePlatformCommand}"
                                      CommandParameter="twitch" />
                     </StackLayout>
