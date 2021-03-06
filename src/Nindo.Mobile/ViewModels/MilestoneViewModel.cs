@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -77,8 +78,17 @@ namespace Nindo.Mobile.ViewModels
 
         private async Task RefreshAsync()
         {
-            Milestones.Clear();
-            await LoadMilestonesAsync();
+            try
+            {
+                IsRefreshing = true;
+
+                Milestones.Clear();
+                await LoadMilestonesAsync();
+            }
+            finally
+            {
+                IsRefreshing = false;
+            }
         }
 
         private bool CanExecute(object arg)
@@ -94,6 +104,18 @@ namespace Nindo.Mobile.ViewModels
             set
             {
                 _milestones = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isRefreshing;
+
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value;
                 OnPropertyChanged();
             }
         }
