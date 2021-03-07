@@ -14,12 +14,12 @@ namespace Nindo.Mobile.Converters
 
             return platform switch
             {
-                "twitch" => "twitch_grey.png",
-                "instagram" => "instagram_grey.png",
-                "twitter" => "twitter_grey.png",
-                "tiktok" => "tiktok_grey.png",
-                "youtube" => "youtube_grey.png",
-                _ => "youtube_grey.png"
+                "twitch" => "twitch_white.png",
+                "instagram" => "instagram_white.png",
+                "twitter" => "twitter_white.png",
+                "tiktok" => "tiktok_white.png",
+                "youtube" => "youtube_white.png",
+                _ => "youtube_white.png"
             };
         }
 

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="Nindo.Mobile.Views.TwitchViralDetailPage"
              x:DataType="viewModels:ViralDetailPageViewModel"
              Title="{Binding Title}">
@@ -14,7 +15,7 @@
             </StackLayout>
             <Label FontSize="15" Text="Streamer" Padding="0,20,0,0"></Label>
             <StackLayout Orientation="Horizontal">
-                <Image Source="{Binding ViralEntry.Post.Channel.Avatar}" HorizontalOptions="Start" HeightRequest="80"/>
+                <ffimageloading:CachedImage Source="{Binding ViralEntry.Post.Channel.Avatar}" HorizontalOptions="Start" HeightRequest="80" BitmapOptimizations="True"/>
                 <Label FontSize="25" Text="{Binding ViralEntry.Post.Channel.ArtistBase.Name}" VerticalTextAlignment="Center"/>
             </StackLayout>
             <Label FontSize="15" Text="Stream" Padding="0,20,0,0"/>
