@@ -20,7 +20,7 @@ namespace Nindo.Mobile.ViewModels
 
         public MilestoneViewModel(IApiService apiService)
         {
-            Milestones = new List<ExtendedMilestone>
+            Milestones = new[]
             {
                 new ExtendedMilestone
                 {
@@ -83,7 +83,14 @@ namespace Nindo.Mobile.ViewModels
             {
                 IsRefreshing = true;
 
-                Milestones.ForEach(m => m.Milestones.Clear());
+                Milestones[0] = new ExtendedMilestone
+                {
+                    MilestoneTitle = "Nächste Meilensteine"
+                };
+                Milestones[1] = new ExtendedMilestone
+                {
+                    MilestoneTitle = "Letzte Meilensteine"
+                };
                 await LoadMilestonesAsync();
             }
             finally
