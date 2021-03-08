@@ -24,7 +24,7 @@ namespace Nindo.Mobile.ViewModels
             Milestones = new ObservableCollection<ExtendedMilestone>();
 
             _apiService = apiService;
-            RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
+            RefreshCommand = new AsyncCommand(RefreshAsync);
 
         }
 

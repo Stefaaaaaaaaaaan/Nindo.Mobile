@@ -7,6 +7,7 @@
             xmlns:effects="http://xamarin.com/schemas/2020/toolkit"
             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
             x:Class="Nindo.Mobile.Views.MilestonePage"
+            x:Name="MilestonesPage"
             Title="Milestones"
             BarBackgroundColor="#8552b4"
             Shell.NavBarHasShadow="False"
@@ -21,7 +22,6 @@
     <TabbedPage.ItemTemplate>
         <DataTemplate>
             <ContentPage Title="{Binding MilestoneTitle}">
-                <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
                     <CollectionView ItemsSource="{Binding Milestone}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -72,7 +72,6 @@
                                HorizontalTextAlignment="End" Padding="0,5,10,5" Text="Aktuelle Follower"/>
                         </CollectionView.Footer>
                     </CollectionView>
-                </RefreshView>
             </ContentPage>
         </DataTemplate>
     </TabbedPage.ItemTemplate>

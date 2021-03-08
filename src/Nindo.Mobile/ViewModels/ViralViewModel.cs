@@ -30,15 +30,13 @@ namespace Nindo.Mobile.ViewModels
             {
                 IsBusy = true;
 
-                var items = await _apiService.GetViralsAsync();
+                var items = await Task.Run(_apiService.GetViralsAsync);
                 ViralData.AddRange(items);
-                Device.BeginInvokeOnMainThread(() => {
-                    OpenDetailPageCommand.RaiseCanExecuteChanged();
-                });
             }
             finally
             {
                 IsBusy = false;
+                OpenDetailPageCommand.RaiseCanExecuteChanged();
             }
         }
 

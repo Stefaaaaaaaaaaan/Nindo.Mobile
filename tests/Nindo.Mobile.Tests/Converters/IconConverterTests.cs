@@ -9,12 +9,12 @@ namespace Nindo.Mobile.Tests.Converters
     [TestFixture]
     public class IconConverterTests
     {
-        [TestCase("twitch", "twitchGrey.png")]
-        [TestCase("instagram", "instagramGrey.png")]
-        [TestCase("twitter", "twitterGrey.png")]
-        [TestCase("tiktok", "tiktokGrey.png")]
-        [TestCase("youtube", "youtubeGrey.png")]
-        [TestCase("blupblap", "youtubeGrey.png")]
+        [TestCase("twitch", "twitch_white.png")]
+        [TestCase("instagram", "instagram_white.png")]
+        [TestCase("twitter", "twitter_white.png")]
+        [TestCase("tiktok", "tiktok_white.png")]
+        [TestCase("youtube", "youtube_white.png")]
+        [TestCase("blupblap", "youtube_white.png")]
         public void Convert_CorrectResult(string platform, string imageLocation)
         {
             // Arrange
