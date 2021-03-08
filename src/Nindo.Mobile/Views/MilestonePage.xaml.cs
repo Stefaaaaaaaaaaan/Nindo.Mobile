@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using Nindo.Mobile.Services.Implementations;
 using Nindo.Mobile.ViewModels;
 using Xamarin.Forms;
@@ -19,7 +20,7 @@ namespace Nindo.Mobile.Views
         {
             base.OnAppearing();
 
-            if (BindingContext is MilestoneViewModel vm && vm.Milestones.Count == 0)
+            if (BindingContext is MilestoneViewModel vm && vm.Milestones.Any(m => m.Milestones == null))
                 vm.LoadMilestonesAsync()
                     .ContinueWith(t =>
                     {

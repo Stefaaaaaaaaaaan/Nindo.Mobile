@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Nindo.Mobile.Models;
 using Nindo.Mobile.Services;
 using Nindo.Net.Models;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms.Internals;
 
 namespace Nindo.Mobile.ViewModels
 {
@@ -21,10 +20,20 @@ namespace Nindo.Mobile.ViewModels
 
         public MilestoneViewModel(IApiService apiService)
         {
-            Milestones = new ObservableCollection<ExtendedMilestone>();
+            Milestones = new List<ExtendedMilestone>
+            {
+                new ExtendedMilestone
+                {
+                    MilestoneTitle = "Nächste Meilensteine"
+                },
+                new ExtendedMilestone
+                {
+                    MilestoneTitle = "Letzte Meilensteine"
+                }
+            };
 
             _apiService = apiService;
-            RefreshCommand = new AsyncCommand(RefreshAsync);
+            RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
 
         }
 
@@ -53,19 +62,11 @@ namespace Nindo.Mobile.ViewModels
 
                         if (currentTask == newMsTask)
                         {
-                            Milestones.Add(new ExtendedMilestone
-                            {
-                                MilestoneTitle = "Nächste Meilensteine",
-                                Milestone = newMsTask.Result.ToList()
-                            });
+                            Milestones[0].Milestones = newMsTask.Result.ToList();
                         }
                         else if (currentTask == pastMsTask)
                         {
-                            Milestones.Add(new ExtendedMilestone
-                            {
-                                MilestoneTitle = "Letzte Meilensteine",
-                                Milestone = pastMsTask.Result.ToList()
-                            });
+                            Milestones[1].Milestones = pastMsTask.Result.ToList();
                         }
                     }
                 });
@@ -82,7 +83,7 @@ namespace Nindo.Mobile.ViewModels
             {
                 IsRefreshing = true;
 
-                Milestones.Clear();
+                Milestones.ForEach(m => m.Milestones.Clear());
                 await LoadMilestonesAsync();
             }
             finally
@@ -93,12 +94,12 @@ namespace Nindo.Mobile.ViewModels
 
         private bool CanExecute(object arg)
         {
-            return !IsBusy;
+            return !IsBusy && !IsRefreshing;
         }
 
-        private ObservableCollection<ExtendedMilestone> _milestones;
+        private IList<ExtendedMilestone> _milestones;
 
-        public ObservableCollection<ExtendedMilestone> Milestones
+        public IList<ExtendedMilestone> Milestones
         {
             get => _milestones;
             set

@@ -6,11 +6,15 @@
             xmlns:converters="clr-namespace:Nindo.Mobile.Converters;assembly=Nindo.Mobile"
             xmlns:effects="http://xamarin.com/schemas/2020/toolkit"
             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+            xmlns:models="clr-namespace:Nindo.Mobile.Models;assembly=Nindo.Mobile"
+            xmlns:models1="clr-namespace:Nindo.Net.Models;assembly=Nindo.Net"
             x:Class="Nindo.Mobile.Views.MilestonePage"
             x:Name="MilestonesPage"
             Title="Milestones"
             BarBackgroundColor="#8552b4"
             Shell.NavBarHasShadow="False"
+            x:DataType="viewModels:MilestoneViewModel"
+
             ItemsSource="{Binding Milestones}">
 
 
@@ -21,22 +25,13 @@
 
     <TabbedPage.ItemTemplate>
         <DataTemplate>
-            <ContentPage Title="{Binding MilestoneTitle}">
-                    <CollectionView ItemsSource="{Binding Milestone}">
+            <ContentPage x:DataType="models:ExtendedMilestone" Title="{Binding MilestoneTitle}">
+                <RefreshView Command="{Binding Source={x:Reference MilestonesPage}, Path=BindingContext.RefreshCommand}" IsRefreshing="{Binding Source={x:Reference MilestonesPage}, Path=BindingContext.IsRefreshing}">
+                <CollectionView ItemsSource="{Binding Milestones}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame BorderColor="#eeeeee" Padding="0">
-                                    <Grid Padding="0" RowSpacing="0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="80" />
-                                            <ColumnDefinition Width="140" />
-                                            <ColumnDefinition Width="70" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
+                            <Frame BorderColor="#eeeeee" Padding="0" x:DataType="models1:Milestone">
+                                <Grid Padding="0" RowSpacing="0" RowDefinitions="Auto, *" ColumnDefinitions="80,140,70,*">
                                         <ffimageloading:CachedImage Grid.RowSpan="1"
                                                                     Source="{Binding MilestoneChannel.Avatar}"
                                                                     Aspect="AspectFit"
@@ -72,6 +67,7 @@
                                HorizontalTextAlignment="End" Padding="0,5,10,5" Text="Aktuelle Follower"/>
                         </CollectionView.Footer>
                     </CollectionView>
+                </RefreshView>
             </ContentPage>
         </DataTemplate>
     </TabbedPage.ItemTemplate>
