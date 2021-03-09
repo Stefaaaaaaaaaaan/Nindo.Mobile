@@ -8,7 +8,7 @@ using Xamarin.Forms.Xaml;
 namespace Nindo.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MilestonePage : TabbedPage
+    public partial class MilestonePage : ContentPage
     {
         public MilestonePage()
         {
