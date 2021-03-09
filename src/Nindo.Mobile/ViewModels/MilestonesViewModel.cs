@@ -24,11 +24,11 @@ namespace Nindo.Mobile.ViewModels
             {
                 new ExtendedMilestone
                 {
-                    MilestoneTitle = "Nächste Meilensteine"
+                    MilestoneTitle = "NÄCHSTE MEILENSTEINE"
                 },
                 new ExtendedMilestone
                 {
-                    MilestoneTitle = "Letzte Meilensteine"
+                    MilestoneTitle = "LETZTE MEILENSTEINE"
                 }
             };
 
