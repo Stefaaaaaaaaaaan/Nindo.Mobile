@@ -1,62 +1,91 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Nindo.Common.Common;
+using Nindo.Mobile.Services.Implementations;
 using Nindo.Net.Models;
 using Nindo.Net.Models.Enums;
-using MvvmHelpers.Commands;
-using MvvmHelpers.Interfaces;
-using Nindo.Common.Common;
-using Nindo.Net;
+using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
+using Size = Nindo.Net.Models.Enums.Size;
 
 namespace Nindo.Mobile.ViewModels
 {
-    public class HomeViewModel : BaseViewModel
+    public class HomeViewModel : ViewModelBase
     {
-        public IAsyncCommand LoadCommand { get; }
-        public Command<string> ChangePlatformAsyncCommand { get; }
+        #region commands
+
+        public IAsyncCommand RefreshCommand { get; }
+        public Command<string> ChangePlatformCommand { get; }
+
+        #endregion
 
         public HomeViewModel()
         {
             Title = "Nindo";
+
             Items = new RangeObservableCollection<Rank>();
-            Youtube = new RangeObservableCollection<Rank>();
-            Instagram = new RangeObservableCollection<Rank>();
-            Tiktok = new RangeObservableCollection<Rank>();
-            Twitter = new RangeObservableCollection<Rank>();
-            Twitch = new RangeObservableCollection<Rank>();
 
-            Task.Run(async () => await LoadRanksAsync());
-
-            LoadCommand = new AsyncCommand(LoadRanksAsync, CanExecuteLoad);
-            ChangePlatformAsyncCommand = new Command<string>(ChangePlatformAsync, CanExecuteLoad);
-
+            RefreshCommand = new AsyncCommand(RefreshRanksAsync, CanExecute);
+            ChangePlatformCommand = new Command<string>(ChangePlatform, CanExecute);
         }
 
-        private async Task LoadRanksAsync()
+        public async Task LoadRanksAsync()
         {
             try
             {
-                if (Items.Count > 0)
-                {
-                    ClearCollections();
-                    CurrentPlatform = "youtube";
-                }
+                IsBusy = true;
 
-                var client = new NindoClient();
+                var apiService = new ApiService();
+
                 await Task.Run(async () =>
                 {
-                    Youtube.AddRange(await client.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small));
-                    Items.AddRange(Youtube);
-                    if(string.IsNullOrEmpty(CurrentPlatform))
-                        CurrentPlatform = "youtube";
-                });
-                await Task.Run(async () =>
-                {
-                    Instagram.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.Instagram, Size.Small));
-                    Tiktok.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.TikTok, Size.Small));
-                    Twitter.AddRange(await client.GetLikesScoreboardAsync(RankLikesPlatform.Twitter, Size.Small));
-                    Twitch.AddRange(await client.GetViewersScoreboardAsync(Size.Small));
-                });
+                    var youtubeTask = apiService.GetViewsScoreboardAsync(RankViewsPlatform.Youtube, Size.Small);
+                    var instTask = apiService.GetLikesScoreboardAsync(RankLikesPlatform.Instagram, Size.Small);
+                    var ttTask = apiService.GetLikesScoreboardAsync(RankLikesPlatform.TikTok, Size.Small);
+                    var twitterTask = apiService.GetLikesScoreboardAsync(RankLikesPlatform.Twitter, Size.Small);
+                    var twitchTask = apiService.GetViewersScoreboardAsync(Size.Small);
 
+                    var taskList = new List<Task<Rank[]>>
+                    {
+                        youtubeTask,
+                        instTask,
+                        ttTask,
+                        twitterTask,
+                        twitchTask
+                    };
+
+                    Task<Rank[]> currentTask = null;
+
+                    while (taskList.Count > 0 && (currentTask = await Task.WhenAny(taskList)) != null)
+                    {
+                        taskList.Remove(currentTask);
+
+                        if (currentTask == youtubeTask)
+                        {
+                            Youtube.AddRange(currentTask.Result);
+                            Items.AddRange(Youtube);
+                            CurrentPlatform ??= "youtube";
+                        }
+                        else if (currentTask == instTask)
+                        {
+                            Instagram.AddRange(currentTask.Result);
+                        }
+                        else if (currentTask == ttTask)
+                        {
+                            Tiktok.AddRange(currentTask.Result);
+                        }
+                        else if (currentTask == twitterTask)
+                        {
+                            Twitter.AddRange(currentTask.Result);
+                        }
+                        else if (currentTask == twitchTask)
+                        {
+                            Twitch.AddRange(currentTask.Result);
+                        }
+                    }
+                });
             }
             finally
             {
@@ -64,10 +93,18 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
-        private void ChangePlatformAsync(string platform)
+        private async Task RefreshRanksAsync()
+        {
+            ClearCollections();
+            CurrentPlatform = "youtube";
+            await LoadRanksAsync();
+        }
+
+        private void ChangePlatform(string platform)
         {
             try
             {
+                IsBusy = true;
                 if (CurrentPlatform == platform)
                     return;
 
@@ -98,6 +135,8 @@ namespace Nindo.Mobile.ViewModels
                         Items.AddRange(Twitch);
                         CurrentPlatform = "twitch";
                         break;
+                    default:
+                        throw new InvalidOperationException("Invalid platform!");
                 }
             }
             finally
@@ -106,7 +145,7 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
-        private bool CanExecuteLoad(object arg)
+        private bool CanExecute(object arg)
         {
             return !IsBusy;
         }
@@ -122,7 +161,6 @@ namespace Nindo.Mobile.ViewModels
         }
 
         private RangeObservableCollection<Rank> _items;
-
         public RangeObservableCollection<Rank> Items
         {
             get => _items;
@@ -133,69 +171,17 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
-        private RangeObservableCollection<Rank> _youtube;
+        private RangeObservableCollection<Rank> Youtube { get; } = new RangeObservableCollection<Rank>();
 
-        public RangeObservableCollection<Rank> Youtube
-        {
-            get => _youtube;
-            set
-            {
-                _youtube = value;
-                OnPropertyChanged();
-            }
-        }
+        private RangeObservableCollection<Rank> Instagram { get; } = new RangeObservableCollection<Rank>();
 
+        private RangeObservableCollection<Rank> Tiktok { get; } = new RangeObservableCollection<Rank>();
 
-        private RangeObservableCollection<Rank> _instagram;
+        private RangeObservableCollection<Rank> Twitter { get; } = new RangeObservableCollection<Rank>();
 
-        public RangeObservableCollection<Rank> Instagram
-        {
-            get => _instagram;
-            set
-            {
-                _instagram = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private RangeObservableCollection<Rank> _tiktok;
-
-        public RangeObservableCollection<Rank> Tiktok
-        {
-            get => _tiktok;
-            set
-            {
-                _tiktok = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private RangeObservableCollection<Rank> _twitter;
-
-        public RangeObservableCollection<Rank> Twitter
-        {
-            get => _twitter;
-            set
-            {
-                _twitter = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private RangeObservableCollection<Rank> _twitch;
-
-        public RangeObservableCollection<Rank> Twitch
-        {
-            get => _twitch;
-            set
-            {
-                _twitch = value;
-                OnPropertyChanged();
-            }
-        }
+        private RangeObservableCollection<Rank> Twitch { get; } = new RangeObservableCollection<Rank>();
 
         private string _currentPlatform;
-
         public string CurrentPlatform
         {
             get => _currentPlatform;

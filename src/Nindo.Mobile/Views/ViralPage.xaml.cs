@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Linq;
 using Nindo.Mobile.Services.Implementations;
 using Nindo.Mobile.ViewModels;
 using Xamarin.Forms;
@@ -8,11 +7,11 @@ using Xamarin.Forms.Xaml;
 namespace Nindo.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MilestonePage : ContentPage
+    public partial class ViralPage : ContentPage
     {
-        public MilestonePage()
+        public ViralPage()
         {
-            BindingContext = new MilestonesViewModel(new ApiService());
+            BindingContext = new ViralViewModel(new ApiService(), new NavigationService());
             InitializeComponent();
         }
 
@@ -20,8 +19,8 @@ namespace Nindo.Mobile.Views
         {
             base.OnAppearing();
 
-            if (BindingContext is MilestonesViewModel vm && vm.Milestones.Any(m => !m.Milestones.Any()))
-                vm.LoadMilestonesAsync()
+            if (BindingContext is ViralViewModel vm && vm.ViralData.Count == 0)
+                vm.GetViralAsync()
                     .ContinueWith(t =>
                     {
                         if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);

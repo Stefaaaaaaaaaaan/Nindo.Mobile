@@ -1,16 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Nindo.Mobile.Views.ChartsPage"
-             xmlns:tabs="http://sharpnado.com"
              xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
-             xmlns:views="clr-namespace:Nindo.Mobile.Views;assembly=Nindo.Mobile"
              Title="{Binding Title}">
-
-    <ContentPage.BindingContext>
-        <viewModels:ChartsViewModel />
-    </ContentPage.BindingContext>
-
     <ContentPage.Content>
         <Label>Charts</Label>
     </ContentPage.Content>
