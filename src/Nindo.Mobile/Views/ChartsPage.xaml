@@ -5,11 +5,6 @@
              x:Class="Nindo.Mobile.Views.ChartsPage"
              xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
              Title="{Binding Title}">
-
-    <ContentPage.BindingContext>
-        <viewModels:ChartsViewModel />
-    </ContentPage.BindingContext>
-
     <ContentPage.Content>
         <Label>Charts</Label>
     </ContentPage.Content>

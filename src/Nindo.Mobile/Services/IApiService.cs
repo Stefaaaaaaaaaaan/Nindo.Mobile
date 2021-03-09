@@ -12,6 +12,18 @@ namespace Nindo.Mobile.Services
 
         public Task<Rank[]> GetViewersScoreboardAsync(Size size);
 
+        public Task<Rank[]> GetSubGainScoreboardAsync(RankAllPlatform platform, Size size);
+
+        public Task<Subscriber[]> GetSubscribersAsync(RankAllPlatform platform, Size size);
+
+        public Task<Rank[]> GetScoreboardAsync(RankAllPlatform platform, Size size);
+
+        public Task<Rank[]> GetRetweetsScoreboardAsync(Size size);
+
+        public Task<Rank[]> GetPeakViewersScoreboardAsync(Size size);
+
+        public Task<Rank[]> GetWatchtimeScoreboardAsync(Size size);
+
         public Task<Viral[]> GetViralsAsync();
 
         public Task<Milestone[]> GetMilestonesAsync();

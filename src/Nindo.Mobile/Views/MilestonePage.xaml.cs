@@ -12,7 +12,7 @@ namespace Nindo.Mobile.Views
     {
         public MilestonePage()
         {
-            BindingContext = new MilestoneViewModel(new ApiService());
+            BindingContext = new MilestonesViewModel(new ApiService());
             InitializeComponent();
         }
 
@@ -20,7 +20,7 @@ namespace Nindo.Mobile.Views
         {
             base.OnAppearing();
 
-            if (BindingContext is MilestoneViewModel vm && vm.Milestones.Any(m => m.Milestones == null))
+            if (BindingContext is MilestonesViewModel vm && vm.Milestones.Any(m => !m.Milestones.Any()))
                 vm.LoadMilestonesAsync()
                     .ContinueWith(t =>
                     {

@@ -13,8 +13,7 @@
             Title="Milestones"
             BarBackgroundColor="#8552b4"
             Shell.NavBarHasShadow="False"
-            x:DataType="viewModels:MilestoneViewModel"
-
+            x:DataType="viewModels:MilestonesViewModel"
             ItemsSource="{Binding Milestones}">
 
 

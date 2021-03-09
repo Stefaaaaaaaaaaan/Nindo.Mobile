@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -12,30 +13,28 @@ namespace Nindo.Mobile.Tests.ViewModels
     [TestFixture]
     public class MilestoneViewModelTests
     {
+        private Milestone[] CreateMilestones(int count)
+        {
+            var milestones = new List<Milestone>();
+            for (int i = 0; i < count; i++)
+            {
+                milestones.Add(new Milestone());
+            }
+
+            return milestones.ToArray();
+        }
+
         [Test]
         public async Task LoadMilestonesAsync_NothingProvided_LoadData()
         {
             // Arrange 
             var apiService = Mock.Of<IApiService>();
-            var sut = new MilestoneViewModel(apiService);
+            var sut = new MilestonesViewModel(apiService);
 
             Mock.Get(apiService).Setup(api => api.GetMilestonesAsync())
-                .ReturnsAsync(new[]
-                {
-                    Mock.Of<Milestone>(),
-                    Mock.Of<Milestone>(),
-                    Mock.Of<Milestone>()
-                });
+                .ReturnsAsync(CreateMilestones(3));
             Mock.Get(apiService).Setup(api => api.GetPastMilestonesAsync())
-                .ReturnsAsync(new[]
-                {
-                    Mock.Of<Milestone>(),
-                    Mock.Of<Milestone>(),
-                    Mock.Of<Milestone>(),
-                    Mock.Of<Milestone>(),
-                    Mock.Of<Milestone>(),
-                    Mock.Of<Milestone>()
-                });
+                .ReturnsAsync(CreateMilestones(6));
 
             // Act
             await sut.LoadMilestonesAsync();
@@ -50,7 +49,7 @@ namespace Nindo.Mobile.Tests.ViewModels
         {
             // Arrange 
             var apiService = Mock.Of<IApiService>();
-            var sut = new MilestoneViewModel(apiService);
+            var sut = new MilestonesViewModel(apiService);
 
             // Act
             await sut.RefreshCommand.ExecuteAsync();
@@ -58,7 +57,6 @@ namespace Nindo.Mobile.Tests.ViewModels
             // Assert
             Mock.Get(apiService).Verify(m => m.GetMilestonesAsync(), Times.Once);
             Mock.Get(apiService).Verify(m => m.GetPastMilestonesAsync(), Times.Once);
-            sut.Milestones.Select(m => m.Milestones).Should().NotBeNull();
         }
 
         [Test]
@@ -66,7 +64,7 @@ namespace Nindo.Mobile.Tests.ViewModels
         {
             // Arrange 
             var apiService = Mock.Of<IApiService>();
-            var sut = new MilestoneViewModel(apiService);
+            var sut = new MilestonesViewModel(apiService);
 
             sut.IsBusy = false;
             sut.IsRefreshing = false;
@@ -85,7 +83,7 @@ namespace Nindo.Mobile.Tests.ViewModels
         {
             // Arrange 
             var apiService = Mock.Of<IApiService>();
-            var sut = new MilestoneViewModel(apiService);
+            var sut = new MilestonesViewModel(apiService);
 
             sut.IsBusy = isBusy;
             sut.IsRefreshing = isRefreshing;

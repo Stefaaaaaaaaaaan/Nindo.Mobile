@@ -1,4 +1,8 @@
-﻿using Xamarin.Forms;
+﻿using System.Diagnostics;
+using System.Linq;
+using Nindo.Mobile.Services.Implementations;
+using Nindo.Mobile.ViewModels;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Nindo.Mobile.Views
@@ -8,7 +12,15 @@ namespace Nindo.Mobile.Views
     {
         public ChartsPage()
         {
+            BindingContext = new ChartsViewModel();
             InitializeComponent();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            
         }
     }
 }

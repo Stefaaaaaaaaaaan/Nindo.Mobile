@@ -14,34 +14,63 @@ namespace Nindo.Mobile.Services.Implementations
             _nindoClient = new NindoClient();
         }
 
-        public async Task<Rank[]> GetViewsScoreboardAsync(RankViewsPlatform platform, Size size)
+        public Task<Rank[]> GetViewsScoreboardAsync(RankViewsPlatform platform, Size size)
         {
-            return await _nindoClient.GetViewsScoreboardAsync(platform, size);
+            return _nindoClient.GetViewsScoreboardAsync(platform, size);
         }
 
-        public async Task<Rank[]> GetLikesScoreboardAsync(RankLikesPlatform platform, Size size)
+        public Task<Rank[]> GetLikesScoreboardAsync(RankLikesPlatform platform, Size size)
         {
-            return await _nindoClient.GetLikesScoreboardAsync(platform, size);
+            return _nindoClient.GetLikesScoreboardAsync(platform, size);
+        }
+        public Task<Rank[]> GetSubGainScoreboardAsync(RankAllPlatform platform, Size size)
+        {
+            return _nindoClient.GetSubGainScoreboardAsync(platform, size);
         }
 
-        public async Task<Rank[]> GetViewersScoreboardAsync(Size size)
+        public Task<Subscriber[]> GetSubscribersAsync(RankAllPlatform platform, Size size)
         {
-            return await _nindoClient.GetViewersScoreboardAsync(size);
+            return _nindoClient.GetSubscribersAsync(platform, size);
         }
 
-        public async Task<Viral[]> GetViralsAsync()
+        public Task<Rank[]> GetScoreboardAsync(RankAllPlatform platform, Size size)
         {
-            return await _nindoClient.GetViralsAsync();
+            return _nindoClient.GetScoreboardAsync(platform, size);
         }
 
-        public async Task<Milestone[]> GetMilestonesAsync()
+        public Task<Rank[]> GetRetweetsScoreboardAsync(Size size)
         {
-            return await _nindoClient.GetMilestonesAsync();
+            return _nindoClient.GetRetweetsScoreboardAsync(size);
         }
 
-        public async Task<Milestone[]> GetPastMilestonesAsync()
+        public Task<Rank[]> GetPeakViewersScoreboardAsync(Size size)
         {
-            return await _nindoClient.GetPastMilestonesAsync();
+            return _nindoClient.GetPeakViewersScoreboardAsync(size);
+        }
+
+        public Task<Rank[]> GetWatchtimeScoreboardAsync(Size size)
+        {
+            return _nindoClient.GetWatchtimeScoreboardAsync(size);
+        }
+
+        public Task<Rank[]> GetViewersScoreboardAsync(Size size)
+        {
+            return _nindoClient.GetViewersScoreboardAsync(size);
+        }
+
+        public Task<Viral[]> GetViralsAsync()
+        {
+            return _nindoClient.GetViralsAsync();
+        }
+
+        public Task<Milestone[]> GetMilestonesAsync()
+        {
+            return _nindoClient.GetMilestonesAsync();
+        }
+
+        public Task<Milestone[]> GetPastMilestonesAsync()
+        {
+            return _nindoClient.GetPastMilestonesAsync();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Nindo.Mobile.Models
     {
         public string MilestoneTitle { get; set; }
 
-        private List<Milestone> _milestones;
+        private List<Milestone> _milestones = new List<Milestone>();
 
         public List<Milestone> Milestones
         {

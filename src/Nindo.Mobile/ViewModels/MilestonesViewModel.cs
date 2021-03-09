@@ -9,7 +9,7 @@ using Xamarin.Forms.Internals;
 
 namespace Nindo.Mobile.ViewModels
 {
-    public class MilestoneViewModel : ViewModelBase
+    public class MilestonesViewModel : ViewModelBase
     {
         #region command
         public IAsyncCommand RefreshCommand { get; }
@@ -18,7 +18,7 @@ namespace Nindo.Mobile.ViewModels
 
         private readonly IApiService _apiService;
 
-        public MilestoneViewModel(IApiService apiService)
+        public MilestonesViewModel(IApiService apiService)
         {
             Milestones = new[]
             {
@@ -45,6 +45,9 @@ namespace Nindo.Mobile.ViewModels
 
                 await Task.Run(async () =>
                 {
+                    Milestones[0].Milestones = new List<Milestone>();
+                    Milestones[1].Milestones = new List<Milestone>();
+
                     var newMsTask = _apiService.GetMilestonesAsync();
                     var pastMsTask = _apiService.GetPastMilestonesAsync();
 
@@ -83,14 +86,6 @@ namespace Nindo.Mobile.ViewModels
             {
                 IsRefreshing = true;
 
-                Milestones[0] = new ExtendedMilestone
-                {
-                    MilestoneTitle = "Nächste Meilensteine"
-                };
-                Milestones[1] = new ExtendedMilestone
-                {
-                    MilestoneTitle = "Letzte Meilensteine"
-                };
                 await LoadMilestonesAsync();
             }
             finally
