@@ -43,7 +43,7 @@ jobs:
       - run: nuget restore ${{ env.SolutionFile }}
 
       - name: Test
-        run: dotnet test tests\Nindo.Mobile.Tests\Nindo.Mobile.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
