@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=netstandard"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" 
+             xmlns:button="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             x:Class="Nindo.Mobile.Views.CouponPage">
+
+    <ContentPage.Content>
+        <Grid>
+            <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+                <StackLayout>
+                    <CollectionView ItemsSource="{Binding Items}" 
+                                    RemainingItemsThreshold="10" 
+                                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreCoupons}">
+                        <CollectionView.Header>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="4" />
+                                    <RowDefinition Height="45" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <button:SfButton Grid.Column="1" Text="Keine" CornerRadius="20" Command="{Binding NoFilterCommand}"></button:SfButton>
+                                    <button:SfButton Grid.Column="2" Text="Marken" CornerRadius="20" Command="{Binding BrandFilterCommand}"></button:SfButton>
+                                    <button:SfButton Grid.Column="3" Text="Kategorien" CornerRadius="20" Command="{Binding CategoriesFilterCommand}"></button:SfButton>
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <StackLayout VerticalOptions="Start" HorizontalOptions="Start" IsVisible="{Binding CategoryIsVisible}">
+                                        <combobox:SfComboBox HeightRequest="50"
+                                                            IsEditableMode="True"
+                                                            AllowFiltering="True"
+                                                            DataSource="{Binding CategoryItems}"
+                                                            SelectedItem="{Binding CategorySelectedItem}"
+                                                            Watermark="Select an Item">
+                                        </combobox:SfComboBox>
+                                    </StackLayout>
+                                    <StackLayout VerticalOptions="Start" HorizontalOptions="Start" IsVisible="{Binding BrandIsVisible}">
+                                        <combobox:SfComboBox HeightRequest="40"
+                                                            IsEditableMode="True"
+                                                            AllowFiltering="True"
+                                                            DataSource="{Binding BrandItems}"
+                                                            SelectedItem="{Binding BrandSelectedItem}"
+                                                            Watermark="Select an Item">
+                                            <combobox:SfComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Label Text="{Binding Name}" TextColor="Black"/>
+                                                    </StackLayout>
+                                                </DataTemplate>
+                                            </combobox:SfComboBox.ItemTemplate>
+                                        </combobox:SfComboBox>
+                                    </StackLayout>
+                                </Grid>
+                            </Grid>
+                        </CollectionView.Header>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame BorderColor="#eeeeee" Padding="0">
+                                    <Grid Padding="0" RowSpacing="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <ffimageloading:CachedImage Grid.Row="0"
+                                                                    Grid.Column="0" 
+                                                                    Grid.RowSpan="1" 
+                                                                    Aspect="AspectFit" 
+                                                                    HeightRequest="80" 
+                                                                    BitmapOptimizations="True" 
+                                                                    Source="{Binding Artist.Avatar}"/>
+                                        <Label Grid.Row="0"
+                                               Grid.Column="1"
+                                               Text="{Binding Discount}"
+                                               TextColor="#8552b4"
+                                               FontSize="25"
+                                               FontAttributes="Bold"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalTextAlignment="Center" />
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.Footer>
+                            <StackLayout>
+                                <Label
+                                    Padding="0,20,0,20"
+                                    FontSize="Small"
+                                    FontAttributes="Bold"
+                                    Text="Tippe auf einen Künstler um Coupon zu kopieren"
+                                    TextColor="LightGray"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center" />
+                            </StackLayout>
+                        </CollectionView.Footer>
+                    </CollectionView>
+                </StackLayout>
+            </RefreshView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
