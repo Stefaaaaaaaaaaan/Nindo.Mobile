@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using Nindo.Mobile.Models;
-using Xamarin.CommunityToolkit.ObjectModel;
+﻿using Xamarin.CommunityToolkit.ObjectModel;
 using Nindo.Mobile.Services;
 using Nindo.Net.Models;
-using System.Text;
 using System.Threading.Tasks;
 using Nindo.Common.Common;
-using System.Linq;
-using System.ComponentModel;
+using MvvmHelpers.Commands;
+using AsyncCommand = Xamarin.CommunityToolkit.ObjectModel.AsyncCommand;
+using System.Windows.Input;
+using Xamarin.Essentials;
 
 namespace Nindo.Mobile.ViewModels
 {
@@ -16,10 +15,11 @@ namespace Nindo.Mobile.ViewModels
         #region command
         public IAsyncCommand RefreshCommand { get; }
         public IAsyncCommand LoadMoreCoupons { get; set; }
+        public IAsyncCommand OnCollectionViewSelectionChanged { get; set; }
 
         public IAsyncCommand NoFilterCommand { get; }
-        public IAsyncCommand BrandFilterCommand { get; }
-        public IAsyncCommand CategoriesFilterCommand { get; }
+        public ICommand BrandFilterCommand { get; }
+        public ICommand CategoriesFilterCommand { get; }
         #endregion
 
         private readonly IApiService _apiService;
@@ -37,15 +37,13 @@ namespace Nindo.Mobile.ViewModels
             BrandItems = new RangeObservableCollection<CouponBrands>();
             CategoryItems = new RangeObservableCollection<string>();
 
-            Task.Run(async() => await LoadCategorys());
-            Task.Run(async () => await LoadBrands());
-
             LoadMoreCoupons = new AsyncCommand(LoadCoupons);
             RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
+            OnCollectionViewSelectionChanged = new AsyncCommand(CopyCouponCode);
 
             NoFilterCommand = new AsyncCommand(setNoFilter);
-            CategoriesFilterCommand = new AsyncCommand(setCategoryFilter);
-            BrandFilterCommand = new AsyncCommand(setBrandFilter);
+            CategoriesFilterCommand = new Command(setCategoryFilter);
+            BrandFilterCommand = new Command(setBrandFilter);
 
         }
 
@@ -103,6 +101,12 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
+        public async Task CopyCouponCode()
+        {
+            await Clipboard.SetTextAsync(CollectionViewSelectedItem.Code);
+            await App.Current.MainPage.DisplayAlert("", "Code has been Copied", "UwU");
+        }
+
         public async Task LoadCategorys()
         {
             var categorys = await _apiService.GetCouponBranchesAsync();
@@ -121,6 +125,7 @@ namespace Nindo.Mobile.ViewModels
 
         private string _categorySelectedItem;
         private CouponBrands _brandSelectedItem;
+        private Coupon _collectionViewSelectedItem;
 
         public RangeObservableCollection<string> CategoryItems
         {
@@ -145,6 +150,20 @@ namespace Nindo.Mobile.ViewModels
             set
             {
                 _brandItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Coupon CollectionViewSelectedItem
+        {
+            get
+            {
+                return _collectionViewSelectedItem;
+            }
+            set
+            {
+                _collectionViewSelectedItem = value;
+
                 OnPropertyChanged();
             }
         }
@@ -215,17 +234,17 @@ namespace Nindo.Mobile.ViewModels
             object arg = null;
             if (CanExecute(arg) == true)
             {
-                RefreshAsync();
+                await RefreshAsync();
             }
         }
 
-        public async Task setCategoryFilter()
+        public void setCategoryFilter()
         {
             CategoryIsVisible = true;
             BrandIsVisible = false;
         }
 
-        public async Task setBrandFilter()
+        public void setBrandFilter()
         {
             CategoryIsVisible = false;
             BrandIsVisible = true;

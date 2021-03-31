@@ -5,7 +5,8 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" 
              xmlns:button="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             x:Class="Nindo.Mobile.Views.CouponPage">
+             x:Class="Nindo.Mobile.Views.CouponPage"
+             Title="Coupons">
 
     <ContentPage.Content>
         <Grid>
@@ -13,7 +14,10 @@
                 <StackLayout>
                     <CollectionView ItemsSource="{Binding Items}" 
                                     RemainingItemsThreshold="10" 
-                                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreCoupons}">
+                                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreCoupons}"
+                                    SelectionMode="Single"
+                                    SelectedItem="{Binding CollectionViewSelectedItem}"
+                                    SelectionChangedCommand="{Binding OnCollectionViewSelectionChanged}">
                         <CollectionView.Header>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -31,13 +35,20 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0"
+                                               Text="Filter: "
+                                               TextColor="Black"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalTextAlignment="Center" />
                                     <button:SfButton Grid.Column="1" Text="Keine" CornerRadius="20" Command="{Binding NoFilterCommand}"></button:SfButton>
                                     <button:SfButton Grid.Column="2" Text="Marken" CornerRadius="20" Command="{Binding BrandFilterCommand}"></button:SfButton>
                                     <button:SfButton Grid.Column="3" Text="Kategorien" CornerRadius="20" Command="{Binding CategoriesFilterCommand}"></button:SfButton>
                                 </Grid>
                                 <Grid Grid.Row="2">
                                     <StackLayout VerticalOptions="Start" HorizontalOptions="Start" IsVisible="{Binding CategoryIsVisible}">
-                                        <combobox:SfComboBox HeightRequest="50"
+                                        <combobox:SfComboBox HeightRequest="40"
                                                             IsEditableMode="True"
                                                             AllowFiltering="True"
                                                             DataSource="{Binding CategoryItems}"
@@ -59,8 +70,36 @@
                                                     </StackLayout>
                                                 </DataTemplate>
                                             </combobox:SfComboBox.ItemTemplate>
+
                                         </combobox:SfComboBox>
                                     </StackLayout>
+                                </Grid>
+                                <Grid Grid.Row="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        Grid.Column="0"
+                                    FontSize="Small"
+                                    FontAttributes="Bold"
+                                    Text="Discount"
+                                    TextColor="Black"
+                                    Padding="40, 0, 0, 0"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center" />
+                                    <Label
+                                        Grid.Column="1"
+                                    FontSize="Small"
+                                    FontAttributes="Bold"
+                                    Text="Code"
+                                    TextColor="Black"
+                                    Padding="0, 0, 30, 0"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center" />
                                 </Grid>
                             </Grid>
                         </CollectionView.Header>
@@ -93,12 +132,21 @@
                                                FontAttributes="Bold"
                                                VerticalTextAlignment="Center"
                                                HorizontalTextAlignment="Center" />
+                                        <Label Grid.Row="0"
+                                               Grid.Column="3"
+                                               Text="{Binding Code}"
+                                               TextColor="Black"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalTextAlignment="Center" />
                                     </Grid>
                                 </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                         <CollectionView.Footer>
                             <StackLayout>
+                                <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" Color="#8552b4"/>
                                 <Label
                                     Padding="0,20,0,20"
                                     FontSize="Small"
