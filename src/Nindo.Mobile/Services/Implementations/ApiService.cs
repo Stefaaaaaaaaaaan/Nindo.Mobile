@@ -73,9 +73,9 @@ namespace Nindo.Mobile.Services.Implementations
             return _nindoClient.GetPastMilestonesAsync();
         }
 
-        public Task<Coupons> GetCouponsAsync(int i)
+        public Task<Coupons> GetCouponsAsync(int page)
         {
-            return _nindoClient.GetCouponsAsync(i);
+            return _nindoClient.GetCouponsAsync(page);
         }
 
         public Task<CouponBrands[]> GetCouponBrandsAsync()
@@ -88,14 +88,14 @@ namespace Nindo.Mobile.Services.Implementations
             return _nindoClient.GetCouponBranchesAsync();
         }
 
-        public Task<Coupons> GetCouponsByCategoryAsync(string Category)
+        public Task<Coupons> GetCouponsByCategoryAsync(string category, int offset)
         {
-            return _nindoClient.GetCouponsByCategoryAsync(Category);
+            return _nindoClient.GetCouponsByCategoryAsync(category, offset);
         }
 
-        public Task<Coupons> GetCouponsByBranchAsync(string id)
+        public Task<Coupons> GetCouponsByBranchAsync(string id, int offset)
         {
-            return _nindoClient.GetCouponsByBranchAsync(id);
+            return _nindoClient.GetCouponsByBranchAsync(id, offset);
         }
     }
 }

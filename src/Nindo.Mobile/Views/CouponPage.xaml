@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=netstandard"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" 
-             xmlns:button="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:button="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
              x:Class="Nindo.Mobile.Views.CouponPage"
              Title="Coupons">
 
@@ -14,10 +13,10 @@
                 <StackLayout>
                     <CollectionView ItemsSource="{Binding Items}" 
                                     RemainingItemsThreshold="10" 
-                                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreCoupons}"
+                                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreCouponsCommand}"
                                     SelectionMode="Single"
                                     SelectedItem="{Binding CollectionViewSelectedItem}"
-                                    SelectionChangedCommand="{Binding OnCollectionViewSelectionChanged}">
+                                    SelectionChangedCommand="{Binding SelectionChangedCommand}">
                         <CollectionView.Header>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -42,9 +41,9 @@
                                                FontAttributes="Bold"
                                                VerticalTextAlignment="Center"
                                                HorizontalTextAlignment="Center" />
-                                    <button:SfButton Grid.Column="1" Text="Keine" CornerRadius="20" Command="{Binding NoFilterCommand}"></button:SfButton>
-                                    <button:SfButton Grid.Column="2" Text="Marken" CornerRadius="20" Command="{Binding BrandFilterCommand}"></button:SfButton>
-                                    <button:SfButton Grid.Column="3" Text="Kategorien" CornerRadius="20" Command="{Binding CategoriesFilterCommand}"></button:SfButton>
+                                    <button:SfButton Grid.Column="1" Text="Keine" CornerRadius="20" Command="{Binding FilterCommand}" CommandParameter="noFilter"></button:SfButton>
+                                    <button:SfButton Grid.Column="2" Text="Marken" CornerRadius="20" Command="{Binding FilterCommand}" CommandParameter="brandFilter"></button:SfButton>
+                                    <button:SfButton Grid.Column="3" Text="Kategorien" CornerRadius="20" Command="{Binding FilterCommand}" CommandParameter="categoriesFilter"></button:SfButton>
                                 </Grid>
                                 <Grid Grid.Row="2">
                                     <StackLayout VerticalOptions="Start" HorizontalOptions="Start" IsVisible="{Binding CategoryIsVisible}">

@@ -25,22 +25,29 @@ namespace Nindo.Mobile.Views
         {
             base.OnAppearing();
 
-            if (BindingContext is CouponViewModel vm && !vm.CategoryItems.Any())
-            {
-                vm.LoadCategorys()
-                    .ContinueWith(t =>
-                    {
-                        if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);
-                    });
+            if (BindingContext is CouponViewModel vm) {
+                if (!vm.CategoryItems.Any())
+                {
+                    vm.LoadCategorys()
+                        .ContinueWith(t =>
+                        {
+                            if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);
+                        });
+                }
+                if (!vm.BrandItems.Any())
+                {
+                    vm.LoadBrands()
+                        .ContinueWith(t =>
+                        {
+                            if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);
+                        });
+                }
             }
-            if (BindingContext is CouponViewModel bvm && !bvm.BrandItems.Any())
-            {
-                bvm.LoadBrands()
-                    .ContinueWith(t =>
-                    {
-                        if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);
-                    });
-            }
+        }
+
+        private void SfComboBox_SelectionChanged(object sender, Syncfusion.XForms.ComboBox.SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
