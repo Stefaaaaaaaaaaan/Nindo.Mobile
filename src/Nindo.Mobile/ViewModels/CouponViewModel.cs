@@ -109,6 +109,7 @@ namespace Nindo.Mobile.ViewModels
                 {
                     Items.Clear();
                     _pageNumber = 0;
+                    hasMore = true;
                     await SelectItemsSource();
                 }
                 else
@@ -132,6 +133,7 @@ namespace Nindo.Mobile.ViewModels
                 {
                     Items.Clear();
                     _pageNumber = 0;
+                    hasMore = true;
                     await SelectItemsSource();
                 }
                 else
