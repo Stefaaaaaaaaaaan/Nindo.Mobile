@@ -29,5 +29,15 @@ namespace Nindo.Mobile.Services
         public Task<Milestone[]> GetMilestonesAsync();
 
         public Task<Milestone[]> GetPastMilestonesAsync();
+
+        public Task<Coupons> GetCouponsAsync(int page);
+
+        public Task<CouponBrands[]> GetCouponBrandsAsync();
+
+        public Task<string[]> GetCouponBranchesAsync();
+
+        public Task<Coupons> GetCouponsByCategoryAsync(string category, int offset);
+
+        public Task<Coupons> GetCouponsByBranchAsync(string id, int offset);
     }
 }
