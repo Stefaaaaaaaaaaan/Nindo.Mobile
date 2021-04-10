@@ -5,6 +5,7 @@
              xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" 
              xmlns:button="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
              x:Class="Nindo.Mobile.Views.CouponPage"
+             xmlns:local="clr-namespace:Nindo.Mobile.Behavior"
              Title="Coupons">
 
     <ContentPage.Content>
@@ -16,7 +17,7 @@
                                     RemainingItemsThresholdReachedCommand="{Binding LoadMoreCouponsCommand}"
                                     SelectionMode="Single"
                                     SelectedItem="{Binding CollectionViewSelectedItem}"
-                                    SelectionChangedCommand="{Binding SelectionChangedCommand}">
+                                    SelectionChangedCommand="{Binding CollectionViewSelectionChangedCommand}">
                         <CollectionView.Header>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -53,6 +54,9 @@
                                                             DataSource="{Binding CategoryItems}"
                                                             SelectedItem="{Binding CategorySelectedItem}"
                                                             Watermark="Select an Item">
+                                            <combobox:SfComboBox.Behaviors>
+                                                <local:EventToCommandBehavior Command="{Binding CategorySelectionChangedCommand}"  EventName="SelectionChanged"/>
+                                            </combobox:SfComboBox.Behaviors>
                                         </combobox:SfComboBox>
                                     </StackLayout>
                                     <StackLayout VerticalOptions="Start" HorizontalOptions="Start" IsVisible="{Binding BrandIsVisible}">
@@ -62,6 +66,9 @@
                                                             DataSource="{Binding BrandItems}"
                                                             SelectedItem="{Binding BrandSelectedItem}"
                                                             Watermark="Select an Item">
+                                            <combobox:SfComboBox.Behaviors>
+                                                <local:EventToCommandBehavior Command="{Binding BrandSelectionChangedCommand}"  EventName="SelectionChanged"/>
+                                            </combobox:SfComboBox.Behaviors>
                                             <combobox:SfComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackLayout Orientation="Horizontal">

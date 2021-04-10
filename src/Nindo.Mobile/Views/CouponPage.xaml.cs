@@ -44,10 +44,5 @@ namespace Nindo.Mobile.Views
                 }
             }
         }
-
-        private void SfComboBox_SelectionChanged(object sender, Syncfusion.XForms.ComboBox.SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }

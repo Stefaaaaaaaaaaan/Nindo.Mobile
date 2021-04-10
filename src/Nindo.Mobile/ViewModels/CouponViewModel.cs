@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Nindo.Common.Common;
 using AsyncCommand = Xamarin.CommunityToolkit.ObjectModel.AsyncCommand;
 using Xamarin.Essentials;
+using Syncfusion.XForms.ComboBox;
+using System.Linq;
 
 namespace Nindo.Mobile.ViewModels
 {
@@ -13,20 +15,13 @@ namespace Nindo.Mobile.ViewModels
         #region command
         public IAsyncCommand RefreshCommand { get; }
         public IAsyncCommand LoadMoreCouponsCommand { get; set; }
-        public IAsyncCommand SelectionChangedCommand { get; set; }
+        public IAsyncCommand CollectionViewSelectionChangedCommand { get; set; }
+        public IAsyncCommand<object> CategorySelectionChangedCommand { get; set; }
+        public IAsyncCommand<object> BrandSelectionChangedCommand { get; set; }
         public IAsyncCommand<string> FilterCommand { get; }
         #endregion
 
         private readonly IApiService _apiService;
-        private int _pageNumber;
-        private string currentFilter;
-
-        private RangeObservableCollection<string> _categoryItems;
-        private RangeObservableCollection<CouponBrands> _brandItems;
-
-        private string _categorySelectedItem;
-        private CouponBrands _brandSelectedItem;
-        private Coupon _collectionViewSelectedItem;
 
         public RangeObservableCollection<Coupon> Items { get; set; }
 
@@ -39,72 +34,114 @@ namespace Nindo.Mobile.ViewModels
             BrandItems = new RangeObservableCollection<CouponBrands>();
             CategoryItems = new RangeObservableCollection<string>();
 
-            LoadMoreCouponsCommand = new AsyncCommand(SelectItemsSource);
+            LoadMoreCouponsCommand = new AsyncCommand(SelectItemsSource, CanExecute);
             RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
-            SelectionChangedCommand = new AsyncCommand(CopyCouponCode);
+            CollectionViewSelectionChangedCommand = new AsyncCommand(CopyCouponCode, CanExecute);
+            CategorySelectionChangedCommand = new AsyncCommand<object>(CategorySelectionChangedAsync, CanExecute);
+            BrandSelectionChangedCommand = new AsyncCommand<object>(BrandSelectionChangedAsync, CanExecute);
 
             FilterCommand = new AsyncCommand<string>(Filter, CanExecute);
         }
 
+
+        private int _pageNumber;
+        bool hasMore = true;
         public async Task SelectItemsSource()
         {
-            if (CategoryIsVisible == false && BrandIsVisible == false)
-            {
-                if (IsBusy)
-                    return;
 
-                try
+            try
+            {
+                IsBusy = true;
+
+                if (CategoryIsVisible == false && BrandIsVisible == false && hasMore == true)
                 {
-                    IsBusy = true;
                     var coupon = await _apiService.GetCouponsAsync(_pageNumber);
                     Items.AddRange(coupon.Coupon);
                     if (coupon.HasMore == "true")
                     {
                         _pageNumber += 20;
                     }
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
-            }
-            else if (CategoryIsVisible == true && BrandIsVisible == false)
-            {
-                try
-                {
-                    IsBusy = true;
-                    if (Items.Count == 0)
+                    else
                     {
-
+                        hasMore = false;
                     }
-                    var brand = await _apiService.GetCouponsByBranchAsync(_brandSelectedItem.Id, _pageNumber);
+                }
+                else if (CategoryIsVisible == false && BrandIsVisible == true && hasMore == true)
+                {
+                    var brand = await _apiService.GetCouponsByBranchAsync(BrandSelectedItem.Id, _pageNumber);
                     Items.AddRange(brand.Coupon);
                     if (brand.HasMore == "true")
                     {
                         _pageNumber += 20;
                     }
+                    else
+                    {
+                        hasMore = false;
+                    }
                 }
-                finally
+                else if (CategoryIsVisible == true && BrandIsVisible == false && hasMore == true)
                 {
-                    IsBusy = false;
-                }
-            }
-            else if (CategoryIsVisible == false && BrandIsVisible == true)
-            {
-                try
-                {
-                    IsBusy = true;
-                    var category = await _apiService.GetCouponsByCategoryAsync(CategorySelectedItem, _pageNumber);
+                    var category = _apiService.GetCouponsByCategoryAsync(CategorySelectedItem, _pageNumber).Result;
                     Items.AddRange(category.Coupon);
                     if (category.HasMore == "true")
                     {
                         _pageNumber += 20;
                     }
+                    else
+                    {
+                        hasMore = false;
+                    }
                 }
-                finally
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public async Task CategorySelectionChangedAsync(object obj)
+        {
+            try
+            {
+                IsBusy = true;
+                var selectionChangedArgs = obj as SelectionChangedEventArgs;
+                if (CategoryItems.Contains(selectionChangedArgs.Value))
                 {
-                    IsBusy = false;
+                    Items.Clear();
+                    _pageNumber = 0;
+                    await SelectItemsSource();
                 }
+                else
+                {
+                    return;
+                }
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public async Task BrandSelectionChangedAsync(object obj)
+        {
+            try
+            {
+                IsBusy = true;
+                var selectionChangedArgs = obj as SelectionChangedEventArgs;
+                if (BrandItems.Contains(selectionChangedArgs.Value))
+                {
+                    Items.Clear();
+                    _pageNumber = 0;
+                    await SelectItemsSource();
+                }
+                else
+                {
+                    return;
+                }
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
@@ -126,6 +163,7 @@ namespace Nindo.Mobile.ViewModels
             BrandItems.AddRange(brands);
         }
 
+        private RangeObservableCollection<string> _categoryItems;
         public RangeObservableCollection<string> CategoryItems
         {
             get => _categoryItems;
@@ -136,7 +174,7 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
-
+        private RangeObservableCollection<CouponBrands> _brandItems;
         public RangeObservableCollection<CouponBrands> BrandItems
         {
             get => _brandItems;
@@ -147,6 +185,8 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
+
+        private Coupon _collectionViewSelectedItem;
         public Coupon CollectionViewSelectedItem
         {
             get => _collectionViewSelectedItem;
@@ -158,6 +198,7 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
+        private string _categorySelectedItem;
         public string CategorySelectedItem
         {
             get => _categorySelectedItem;
@@ -165,13 +206,11 @@ namespace Nindo.Mobile.ViewModels
             {
                 _categorySelectedItem = value;
 
-                _pageNumber = 0;
-                Items.Clear();
-                SelectItemsSource();
                 OnPropertyChanged();
             }
         }
 
+        private CouponBrands _brandSelectedItem;
         public CouponBrands BrandSelectedItem
         {
             get => _brandSelectedItem;
@@ -179,35 +218,34 @@ namespace Nindo.Mobile.ViewModels
             {
                 _brandSelectedItem = value;
 
-                _pageNumber = 0;
-                Items.Clear();
-                SelectItemsSource();
                 OnPropertyChanged();
             }
         }
 
         private bool _categoryIsVisible;
-        private bool _brandIsVisible;
 
-        public bool CategoryIsVisible 
-        { 
+        public bool CategoryIsVisible
+        {
             get => _categoryIsVisible;
-            set 
+            set
             {
                 _categoryIsVisible = value;
                 OnPropertyChanged();
             }
         }
+
+        private bool _brandIsVisible;
         public bool BrandIsVisible
-        { 
+        {
             get => _brandIsVisible;
-            set 
+            set
             {
                 _brandIsVisible = value;
                 OnPropertyChanged();
-            } 
+            }
         }
 
+        private string currentFilter;
         public async Task Filter(string filter)
         {
             try
@@ -218,18 +256,30 @@ namespace Nindo.Mobile.ViewModels
                 switch (filter)
                 {
                     case "noFilter":
-                        Items.Clear();
+
+                        hasMore = true;
                         CategoryIsVisible = false;
                         BrandIsVisible = false;
                         await RefreshAsync();
+                        currentFilter = "noFilter";
                         break;
                     case "brandFilter":
+
+                        hasMore = true;
+                        BrandSelectedItem = BrandItems.First();
                         CategoryIsVisible = false;
                         BrandIsVisible = true;
+                        await RefreshAsync();
+                        currentFilter = "brandFilter";
                         break;
                     case "categoriesFilter":
+
+                        hasMore = true;
+                        CategorySelectedItem = CategoryItems.First();
                         CategoryIsVisible = true;
                         BrandIsVisible = false;
+                        await RefreshAsync();
+                        currentFilter = "categoriesFilter";
                         break;
                 }
             }
