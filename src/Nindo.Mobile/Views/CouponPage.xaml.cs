@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Nindo.Mobile.Services.Implementations;
+﻿using Nindo.Mobile.Services.Implementations;
 using Nindo.Mobile.ViewModels;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Diagnostics;
@@ -26,7 +21,9 @@ namespace Nindo.Mobile.Views
             base.OnAppearing();
 
             if (BindingContext is CouponViewModel vm) {
-                if (!vm.CategoryItems.Any())
+
+
+                if (!vm.Coupons[2].ComboboxItems.Any())
                 {
                     vm.LoadCategorys()
                         .ContinueWith(t =>
@@ -34,7 +31,7 @@ namespace Nindo.Mobile.Views
                             if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);
                         });
                 }
-                if (!vm.BrandItems.Any())
+                if (!vm.Coupons[1].ComboboxItems.Any())
                 {
                     vm.LoadBrands()
                         .ContinueWith(t =>
