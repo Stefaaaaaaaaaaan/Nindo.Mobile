@@ -27,12 +27,7 @@ namespace Nindo.Mobile.Views
 
             if (BindingContext is CouponViewModel vm && vm.Coupons.Any(m => !m.ComboboxItems.Any()))
             {
-                vm.LoadBrandItemsAsync()
-                    .ContinueWith(t =>
-                    {
-                        if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);
-                    });
-                vm.LoadCategoryItemsAsync()
+                vm.LoadComboboxItemsAsync()
                     .ContinueWith(t =>
                     {
                         if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);

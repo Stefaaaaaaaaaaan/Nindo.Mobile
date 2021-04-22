@@ -60,24 +60,16 @@ namespace Nindo.Mobile.ViewModels
             Coupons[0].ComboboxIsVisible = false;
             Coupons[1].ComboboxIsVisible = true;
             Coupons[2].ComboboxIsVisible = true;
+
+            Coupons[1].ComboboxItems = new RangeObservableCollection<CouponBrands>() { };
+            Coupons[2].ComboboxItems = new RangeObservableCollection<CouponBrands>() { };
         }
 
-        public async Task LoadBrandItemsAsync()
+        public async Task LoadComboboxItemsAsync()
         {
-            if (!Coupons[1].ComboboxItems.Any())
+            if (!Coupons[1].ComboboxItems.Any() && !Coupons[2].ComboboxItems.Any())
             {
                 var brandItems = await _apiService.GetCouponBrandsAsync();
-
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Coupons[1].ComboboxItems.AddRange(brandItems);
-                });
-            }
-        }
-
-        public async Task LoadCategoryItemsAsync()
-        {
-            if (!Coupons[2].ComboboxItems.Any()) {
                 var categories = await _apiService.GetCouponBranchesAsync();
 
                 RangeObservableCollection<CouponBrands> categoryItems = new RangeObservableCollection<CouponBrands>();
@@ -88,8 +80,10 @@ namespace Nindo.Mobile.ViewModels
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
+                    Coupons[1].ComboboxItems.AddRange(brandItems);
                     Coupons[2].ComboboxItems.AddRange(categoryItems);
                 });
+
             }
         }
 
@@ -98,20 +92,23 @@ namespace Nindo.Mobile.ViewModels
         {
             try
             {
-                switch (SelectedTabIndex) {
+                IsBusy = true;
+
+                switch (SelectedTabIndex)
+                {
                     case 1:
-                    if (Coupons[1].ComboboxItems.Contains(obj))
-                    {
-                        Coupons[1].Coupons.Clear();
-                        _pageNumber = 0;
-                        hasMore = true;
-                        selectedItem = obj;
-                        await LoadCouponsAsync();
-                    }
-                    else
-                    {
-                        return;
-                    }
+                        if (Coupons[1].ComboboxItems.Contains(obj))
+                        {
+                            Coupons[1].Coupons.Clear();
+                            _pageNumber = 0;
+                            hasMore = true;
+                            selectedItem = obj;
+                            await LoadCouponsAsync();
+                        }
+                        else
+                        {
+                            return;
+                        }
                         break;
 
                     case 2:
@@ -144,13 +141,14 @@ namespace Nindo.Mobile.ViewModels
             {
                 IsBusy = true;
 
-                await Task.Run(async () =>
+                if (hasMore == true)
                 {
+                    await Task.Run(async () =>
+                    {
 
-                    switch (SelectedTabIndex) {
-                        case 0:
-                            if (hasMore == true) 
-                            {
+                        switch (SelectedTabIndex)
+                        {
+                            case 0:
                                 var noFilter = await _apiService.GetCouponsAsync(_pageNumber);
                                 Device.BeginInvokeOnMainThread(() =>
                                 {
@@ -163,40 +161,16 @@ namespace Nindo.Mobile.ViewModels
                                 else
                                 {
                                     hasMore = false;
-                                } 
-                            }
-                            break;
-
-                        case 1:
-                            if (hasMore == true)
-                            {
-                                var brandFilter = await _apiService.GetCouponsByBranchAsync(selectedItem.Id, _pageNumber);
-                                Device.BeginInvokeOnMainThread(() =>
-                                {
-                                    Coupons[1].Coupons.AddRange(brandFilter.Coupon);
-                                });
-                                if (brandFilter.HasMore == "true")
-                                {
-                                    _pageNumber += 20;
                                 }
-                                else
-                                {
-                                    hasMore = false;
-                                }
-                            }
-                            break;
+                                break;
 
-                        case 2:
-                            if (hasMore == true)
-                            {
-                                try
-                                {
-                                    var categoryFilter = await _apiService.GetCouponsByCategoryAsync(selectedItem.Name, _pageNumber);
+                            case 1:
+                                    var brandFilter = await _apiService.GetCouponsByBranchAsync(selectedItem.Id, _pageNumber);
                                     Device.BeginInvokeOnMainThread(() =>
                                     {
-                                        Coupons[2].Coupons.AddRange(categoryFilter.Coupon);
+                                        Coupons[1].Coupons.AddRange(brandFilter.Coupon);
                                     });
-                                    if (categoryFilter.HasMore == "true")
+                                    if (brandFilter.HasMore == "true")
                                     {
                                         _pageNumber += 20;
                                     }
@@ -204,16 +178,34 @@ namespace Nindo.Mobile.ViewModels
                                     {
                                         hasMore = false;
                                     }
+                                break;
 
-                                }
-                                catch(Exception e)
-                                {
-                                    Debug.WriteLine(e);
-                                }
-                            }
-                            break;
-                    }
-                });
+                            case 2:
+                                    try
+                                    {
+                                        var categoryFilter = await _apiService.GetCouponsByCategoryAsync(selectedItem.Name, _pageNumber);
+                                        Device.BeginInvokeOnMainThread(() =>
+                                        {
+                                            Coupons[2].Coupons.AddRange(categoryFilter.Coupon);
+                                        });
+                                        if (categoryFilter.HasMore == "true")
+                                        {
+                                            _pageNumber += 20;
+                                        }
+                                        else
+                                        {
+                                            hasMore = false;
+                                        }
+
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Debug.WriteLine(e);
+                                    }
+                                break;
+                        }
+                    });
+                }
             }
             finally
             {
@@ -223,8 +215,17 @@ namespace Nindo.Mobile.ViewModels
 
         public async Task CopyCouponCode()
         {
-            await Clipboard.SetTextAsync(CollectionViewSelectedItem.Code);
-            await Application.Current.MainPage.DisplayAlert("", "Code has been Copied", "UwU");
+            try
+            {
+                IsBusy = true;
+
+                await Clipboard.SetTextAsync(CollectionViewSelectedItem.Code);
+                await Application.Current.MainPage.DisplayAlert("", "Code has been Copied", "UwU");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private async Task RefreshAsync()
