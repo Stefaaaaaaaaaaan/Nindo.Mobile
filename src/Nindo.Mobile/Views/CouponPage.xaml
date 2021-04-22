@@ -5,7 +5,8 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
              xmlns:models1="clr-namespace:Nindo.Net.Models;assembly=Nindo.Net" 
-             xmlns:viewmodels="clr-namespace:Nindo.Mobile.ViewModels" xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             xmlns:viewmodels="clr-namespace:Nindo.Mobile.ViewModels" 
+             xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" 
              x:DataType="viewmodels:CouponViewModel"
              x:Class="Nindo.Mobile.Views.CouponPage"
              x:Name="CouponsPage"
@@ -36,7 +37,10 @@
                 <RefreshView Command="{Binding Source={x:Reference CouponsPage}, Path=BindingContext.RefreshCommand}" IsRefreshing="{Binding Source={x:Reference CouponsPage}, Path=BindingContext.IsRefreshing}">
                     <CollectionView ItemsSource="{Binding Coupons}"
                                     RemainingItemsThreshold="10" 
-                                    RemainingItemsThresholdReachedCommand="{Binding Source={x:Reference CouponsPage}, Path=BindingContext.LoadMoreCouponsCommand}">
+                                    RemainingItemsThresholdReachedCommand="{Binding Source={x:Reference CouponsPage}, Path=BindingContext.LoadMoreCouponsCommand}"
+                                    SelectionMode="Single"
+                                    SelectedItem="{Binding Source={x:Reference CouponsPage}, Path=BindingContext.CollectionViewSelectedItem}"
+                                    SelectionChangedCommand="{Binding Source={x:Reference CouponsPage}, Path=BindingContext.CollectionViewSelectionChangedCommand}">
                         <CollectionView.Header>
                             <StackLayout VerticalOptions="Start" HorizontalOptions="Start" Padding="30">
                                 <combobox:SfComboBox HeightRequest="40"
@@ -45,10 +49,13 @@
                                                      ItemTemplate="{StaticResource comboboxTemplate}"
                                                      DataSource="{Binding ComboboxItems}"
                                                      IsVisible="{Binding ComboboxIsVisible}"
-                                                     SelectedItem="{Binding ComboboxSelectedItem}"
-                                                     Watermark="Select an Item">
+                                                     Watermark="Select an Item"
+                                                     x:Name="boxboi">
                                     <combobox:SfComboBox.Behaviors>
-                                        <xct:EventToCommandBehavior Command="{Binding Source={x:Reference CouponsPage},Path=BindingContext.ComboboxSelectionChangedCommand}" EventName="SelectionChanged" />
+                                        <xct:EventToCommandBehavior 
+                                            Command="{Binding Source={x:Reference CouponsPage},Path=BindingContext.ComboboxSelectionChangedCommand}" 
+                                            EventName="SelectionChanged" 
+                                            CommandParameter="{Binding Source={x:Reference boxboi}, Path=SelectedItem}"/>
                                     </combobox:SfComboBox.Behaviors>
                                 </combobox:SfComboBox>
                             </StackLayout>
@@ -81,8 +88,14 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                         <CollectionView.Footer>
-                            <Label Grid.Row="3" Grid.ColumnSpan="3" TextColor="#ababab"
-                                   HorizontalTextAlignment="End" Padding="0,5,10,5" Text="Aktuelle Follower"/>
+                            <Label
+                                    Padding="0,20,0,20"
+                                    FontSize="Small"
+                                    FontAttributes="Bold"
+                                    Text="Tippe auf einen Künstler um Coupon zu kopieren"
+                                    TextColor="LightGray"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center" />
                         </CollectionView.Footer>
                     </CollectionView>
                 </RefreshView>

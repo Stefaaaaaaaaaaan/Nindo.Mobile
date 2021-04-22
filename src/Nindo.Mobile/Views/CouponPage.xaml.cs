@@ -26,11 +26,18 @@ namespace Nindo.Mobile.Views
             base.OnAppearing();
 
             if (BindingContext is CouponViewModel vm && vm.Coupons.Any(m => !m.ComboboxItems.Any()))
-                vm.LoadComboboxItemsAsync()
+            {
+                vm.LoadBrandItemsAsync()
                     .ContinueWith(t =>
                     {
                         if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);
                     });
+                vm.LoadCategoryItemsAsync()
+                    .ContinueWith(t =>
+                    {
+                        if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);
+                    });
+            }
         }
     }
 }
