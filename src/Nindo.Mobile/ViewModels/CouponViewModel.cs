@@ -1,61 +1,98 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Nindo.Common.Common;
 using Nindo.Mobile.Models;
 using Nindo.Mobile.Services;
 using Nindo.Net.Models;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Nindo.Common.Common;
-using Xamarin.Forms.Internals;
 
 namespace Nindo.Mobile.ViewModels
 {
-    class CouponViewModel : ViewModelBase
+    public class CouponViewModel : ViewModelBase
     {
         private readonly IApiService _apiService;
 
         #region command
         public IAsyncCommand RefreshCommand { get; }
         public IAsyncCommand LoadMoreCouponsCommand { get; set; }
-        public IAsyncCommand CollectionViewSelectionChangedCommand { get; set; }
-        public IAsyncCommand<object> ComboboxSelectionChangedCommand { get; set; }
-
+        public IAsyncCommand ComboboxSelectionChangedCommand { get; set; }
         #endregion
 
         public CouponViewModel(IApiService apiService)
         {
             Coupons = new[]
             {
-                new ExtendedCoupon<object>
+                new ExtendedCoupon
                 {
-                    CouponTitle = "Keine Filter"
+                    CouponTitle = "keine Filter"
                 },
-                new ExtendedCoupon<object>
+                new ExtendedCoupon
                 {
                     CouponTitle = "Brand Filter"
                 },
-                new ExtendedCoupon<object>
+                new ExtendedCoupon
                 {
                     CouponTitle = "Category Filter"
                 }
             };
 
-            _apiService = apiService; 
+            InitLists();
+            _apiService = apiService;
             RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
+            LoadMoreCouponsCommand = new AsyncCommand(LoadCouponsAsync, CanExecute);
+            ComboboxSelectionChangedCommand = new AsyncCommand(ComboboxSelectionChangedAsync, CanExecute);
         }
 
         public void InitLists()
         {
-            Coupons[0].Coupons = new RangeObservableCollection<Coupon>();
-            Coupons[1].Coupons = new RangeObservableCollection<Coupon>();
-            Coupons[2].Coupons = new RangeObservableCollection<Coupon>();
+            Coupons[0].Coupons = new RangeObservableCollection<Coupon>() { };
+            Coupons[1].Coupons = new RangeObservableCollection<Coupon>() { };
+            Coupons[2].Coupons = new RangeObservableCollection<Coupon>() { };
 
-            Coupons[1].ComboboxItems = new RangeObservableCollection<object>();
-            Coupons[2].ComboboxItems = new RangeObservableCollection<object>();
+            Coupons[0].ComboboxIsVisible = false;
+            Coupons[1].ComboboxIsVisible = true;
+            Coupons[2].ComboboxIsVisible = true;
         }
 
-        private int _pageNumber;
-        bool hasMore = true;
+        public async Task LoadComboboxItemsAsync()
+        {
+            var brandItems = await _apiService.GetCouponBrandsAsync();
+            var categories = await _apiService.GetCouponBranchesAsync();
+
+            RangeObservableCollection<CouponBrands> categoryItems = new RangeObservableCollection<CouponBrands>();
+            foreach (var item in categories)
+            {
+                categoryItems.Add(new CouponBrands { Name = item });
+            }
+
+            Coupons[1].ComboboxItems.AddRange(brandItems);
+            Coupons[2].ComboboxItems.AddRange(categoryItems);
+        }
+
+        public async Task ComboboxSelectionChangedAsync()
+        {
+            try
+            {
+                IsBusy = true;
+                if (ComboboxSelectedItem != null) {
+                    await LoadCouponsAsync();
+                    _pageNumber = 0;
+                    hasMore = true;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private bool hasMore = true;
+        int _pageNumber;
         public async Task LoadCouponsAsync()
         {
             try
@@ -64,12 +101,12 @@ namespace Nindo.Mobile.ViewModels
 
                 await Task.Run(async () =>
                 {
-                    switch (TabViewSelectedIndex)
-                    {
+
+                    switch (SelectedTabIndex) {
                         case 0:
-                            var coupon = await _apiService.GetCouponsAsync(_pageNumber);
-                            Coupons[0].Coupons.AddRange(coupon.Coupon);
-                            if (coupon.HasMore == "true")
+                            var noFilter = await _apiService.GetCouponsAsync(_pageNumber);
+                            Coupons[0].Coupons.AddRange(noFilter.Coupon.ToList());
+                            if (noFilter.HasMore == "true")
                             {
                                 _pageNumber += 20;
                             }
@@ -78,10 +115,11 @@ namespace Nindo.Mobile.ViewModels
                                 hasMore = false;
                             }
                             break;
-                        /*case 1:
-                            var brand = await _apiService.GetCouponsByBranchAsync(BrandSelectedItem.Id, _pageNumber);
-                            Coupons[1].Coupons.AddRange(brand.Coupon);
-                            if (brand.HasMore == "true")
+
+                        case 1:
+                            var brandFilter = await _apiService.GetCouponsByBranchAsync(ComboboxSelectedItem.Id, _pageNumber);
+                            Coupons[1].Coupons.AddRange(brandFilter.Coupon.ToList());
+                            if (brandFilter.HasMore == "true")
                             {
                                 _pageNumber += 20;
                             }
@@ -90,10 +128,11 @@ namespace Nindo.Mobile.ViewModels
                                 hasMore = false;
                             }
                             break;
+
                         case 2:
-                            var category = _apiService.GetCouponsByCategoryAsync(CategorySelectedItem, _pageNumber).Result;
-                            Coupons[2].Coupons.AddRange(category.Coupon);
-                            if (category.HasMore == "true")
+                            var categoryFilter = await _apiService.GetCouponsByCategoryAsync(ComboboxSelectedItem.Name, _pageNumber);
+                            Coupons[2].Coupons.AddRange(categoryFilter.Coupon.ToList());
+                            if (categoryFilter.HasMore == "true")
                             {
                                 _pageNumber += 20;
                             }
@@ -101,7 +140,7 @@ namespace Nindo.Mobile.ViewModels
                             {
                                 hasMore = false;
                             }
-                            break;*/
+                            break;
                     }
                 });
             }
@@ -109,17 +148,6 @@ namespace Nindo.Mobile.ViewModels
             {
                 IsBusy = false;
             }
-        }
-
-        public async Task LoadBrands()
-        {
-            var brands = await _apiService.GetCouponBrandsAsync();
-            Coupons[1].ComboboxItems.AddRange(brands);
-        }
-        public async Task LoadCategorys()
-        {
-            var categorys = await _apiService.GetCouponBranchesAsync();
-            Coupons[2].ComboboxItems.AddRange(categorys);
         }
 
         private async Task RefreshAsync()
@@ -141,9 +169,9 @@ namespace Nindo.Mobile.ViewModels
             return !IsBusy && !IsRefreshing;
         }
 
-        private IList<ExtendedCoupon<object>> _coupons;
+        private IList<ExtendedCoupon> _coupons;
 
-        public IList<ExtendedCoupon<object>> Coupons
+        public IList<ExtendedCoupon> Coupons
         {
             get => _coupons;
             set
@@ -153,26 +181,26 @@ namespace Nindo.Mobile.ViewModels
             }
         }
 
-        private Coupon _collectionViewSelectedItem;
-        public Coupon CollectionViewSelectedItem
+        private CouponBrands _comboboxSelectedItem;
+
+        public CouponBrands ComboboxSelectedItem
         {
-            get => _collectionViewSelectedItem;
+            get => _comboboxSelectedItem;
             set
             {
-                _collectionViewSelectedItem = value;
-
+                _comboboxSelectedItem = value;
                 OnPropertyChanged();
             }
         }
 
-        private int _tabViewSelectedIndex;
+        private int _selectedTabIndex;
 
-        public int TabViewSelectedIndex
+        public int SelectedTabIndex
         {
-            get => _tabViewSelectedIndex;
+            get => _selectedTabIndex;
             set
             {
-                _tabViewSelectedIndex = value;
+                _selectedTabIndex = value;
                 OnPropertyChanged();
             }
         }

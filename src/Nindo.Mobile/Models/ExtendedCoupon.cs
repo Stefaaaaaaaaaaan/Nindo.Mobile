@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Nindo.Mobile.Models
 {
-    class ExtendedCoupon<T> : ViewModelBase
+    public class ExtendedCoupon : ViewModelBase
     {
         public string CouponTitle { get; set; }
 
@@ -23,13 +23,27 @@ namespace Nindo.Mobile.Models
             }
         }
 
-        private RangeObservableCollection<T> _comboboxItems;
-        public RangeObservableCollection<T> ComboboxItems
+        private RangeObservableCollection<CouponBrands> _comboboxItems = new RangeObservableCollection<CouponBrands>();
+
+        public RangeObservableCollection<CouponBrands> ComboboxItems
         {
             get => _comboboxItems;
             set
             {
                 _comboboxItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private bool _comboboxIsVisible;
+
+        public bool ComboboxIsVisible
+        {
+            get => _comboboxIsVisible;
+            set
+            {
+                _comboboxIsVisible = value;
                 OnPropertyChanged();
             }
         }

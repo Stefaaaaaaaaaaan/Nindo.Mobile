@@ -1,17 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:viewModels="clr-namespace:Nindo.Mobile.ViewModels;assembly=Nindo.Mobile"
-            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-            xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-            xmlns:models1="clr-namespace:Nindo.Net.Models;assembly=Nindo.Net" 
-             xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" xmlns:local="clr-namespace:Nindo.Mobile.Behavior"
-             x:Name="CouponPage"
-            Title="Coupons"
-            Shell.NavBarHasShadow="False"
-            x:DataType="viewModels:CouponViewModel">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:converters="clr-namespace:Nindo.Mobile.Converters" 
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:models1="clr-namespace:Nindo.Net.Models;assembly=Nindo.Net" 
+             xmlns:viewmodels="clr-namespace:Nindo.Mobile.ViewModels" xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             x:DataType="viewmodels:CouponViewModel"
+             x:Class="Nindo.Mobile.Views.CouponPage"
+             x:Name="CouponsPage"
+             Title="Coupons">
+
 
     <ContentPage.Resources>
+        <converters:IconConverter x:Key="IconConverter" />
         <ResourceDictionary>
 
             <DataTemplate x:Key="TabViewItemTemplate">
@@ -24,48 +26,33 @@
                 </Grid>
             </DataTemplate>
 
-            <DataTemplate x:Key="BrandTemplate">
-                <Label Text="{Binding .}" TextColor="Black"/>
+            <DataTemplate x:Key="comboboxTemplate">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{Binding Name}" TextColor="Black"/>
+                </StackLayout>
             </DataTemplate>
-
-            <DataTemplate x:Key="CategoryTemplate">
-                <Label Text="{Binding Name}" TextColor="Black"/>
-            </DataTemplate>
-
+            
             <DataTemplate x:Key="TabContentTemplate">
-                <RefreshView Command="{Binding Source={x:Reference CouponPage}, Path=BindingContext.RefreshCommand}" IsRefreshing="{Binding Source={x:Reference CouponPage}, Path=BindingContext.IsRefreshing}">
+                <RefreshView Command="{Binding Source={x:Reference CouponsPage}, Path=BindingContext.RefreshCommand}" IsRefreshing="{Binding Source={x:Reference CouponsPage}, Path=BindingContext.IsRefreshing}">
                     <CollectionView ItemsSource="{Binding Coupons}"
                                     RemainingItemsThreshold="10" 
-                                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreCouponsCommand}"
-                                    SelectionMode="Single"
-                                    SelectedItem="{Binding CollectionViewSelectedItem}"
-                                    SelectionChangedCommand="{Binding CollectionViewSelectionChangedCommand}">
-                        <CollectionView.HeaderTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <StackLayout VerticalOptions="Start" HorizontalOptions="Start">
-                                        <combobox:SfComboBox HeightRequest="40"
-                                                            IsEditableMode="True"
-                                                            AllowFiltering="True"
-                                                            DataSource="{Binding ComboboxItems}"
-                                                            SelectedItem="{Binding ComboboxSelectedItem}"
-                                                            Watermark="Select an Item">
-                                            <combobox:SfComboBox.Behaviors>
-                                                <local:EventToCommandBehavior Command="{Binding ComboboxSelectionChangedCommand}"  EventName="SelectionChanged"/>
-                                            </combobox:SfComboBox.Behaviors>
-                                            <combobox:SfComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackLayout Orientation="Horizontal">
-                                                        <Label Text="{Binding Name}" TextColor="Black"/>
-                                                    </StackLayout>
-                                                </DataTemplate>
-                                            </combobox:SfComboBox.ItemTemplate>
-
-                                        </combobox:SfComboBox>
-                                    </StackLayout>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.HeaderTemplate>
+                                    RemainingItemsThresholdReachedCommand="{Binding Source={x:Reference CouponsPage}, Path=BindingContext.LoadMoreCouponsCommand}">
+                        <CollectionView.Header>
+                            <StackLayout VerticalOptions="Start" HorizontalOptions="Start" Padding="30">
+                                <combobox:SfComboBox HeightRequest="40"
+                                                     IsEditableMode="True"
+                                                     AllowFiltering="True"
+                                                     ItemTemplate="{StaticResource comboboxTemplate}"
+                                                     DataSource="{Binding ComboboxItems}"
+                                                     IsVisible="{Binding ComboboxIsVisible}"
+                                                     SelectedItem="{Binding ComboboxSelectedItem}"
+                                                     Watermark="Select an Item">
+                                    <combobox:SfComboBox.Behaviors>
+                                        <xct:EventToCommandBehavior Command="{Binding Source={x:Reference CouponsPage},Path=BindingContext.ComboboxSelectionChangedCommand}" EventName="SelectionChanged" />
+                                    </combobox:SfComboBox.Behaviors>
+                                </combobox:SfComboBox>
+                            </StackLayout>
+                        </CollectionView.Header>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Frame BorderColor="#eeeeee" Padding="0" x:DataType="models1:Coupon" CornerRadius="0">
@@ -75,22 +62,20 @@
                                                                         Aspect="AspectFit"
                                                                         HeightRequest="80"
                                                                         BitmapOptimizations="True"/>
+                                        <Label
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Text="{Binding Discount}"
+                                                    FontAttributes="Bold"
+                                                    TextColor="#5a5a5a"
+                                                    VerticalTextAlignment="Center" />
                                         <Label Grid.Row="0"
-                                               Grid.Column="1"
-                                               Text="{Binding Discount}"
-                                               TextColor="#8552b4"
-                                               FontSize="25"
-                                               FontAttributes="Bold"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
-                                        <Label Grid.Row="0"
-                                               Grid.Column="3"
-                                               Text="{Binding Code}"
-                                               TextColor="Black"
-                                               FontSize="15"
-                                               FontAttributes="Bold"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Center" />
+                                                   Grid.Column="3"
+                                                   FontAttributes="Italic"
+                                                   FontSize="20"
+                                                   TextColor="#5a5a5a"
+                                                   VerticalTextAlignment="Center"
+                                                   Text="{Binding Code}"/>
                                     </Grid>
                                 </Frame>
                             </DataTemplate>
@@ -108,14 +93,14 @@
 
     <ContentPage.Content>
         <xct:TabView
-            SelectedIndex="{Binding TabViewSelectedIndex}"
             TabItemsSource="{Binding Coupons}"
             TabStripPlacement="Top"
             TabStripBackgroundColor="#8552b4"
             TabIndicatorColor="White"
             TabViewItemDataTemplate="{StaticResource TabViewItemTemplate}"
-            TabContentDataTemplate="{StaticResource TabContentTemplate}" >
+            TabContentDataTemplate="{StaticResource TabContentTemplate}"
+            SelectedIndex="{Binding SelectedTabIndex}">
+            
         </xct:TabView>
     </ContentPage.Content>
-
 </ContentPage>
