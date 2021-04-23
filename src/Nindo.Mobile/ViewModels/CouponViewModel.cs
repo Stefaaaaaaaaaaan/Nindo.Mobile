@@ -51,6 +51,7 @@ namespace Nindo.Mobile.ViewModels
             CollectionViewSelectionChangedCommand = new AsyncCommand(CopyCouponCode, CanExecute);
         }
 
+        
         public void InitLists()
         {
             Coupons[0].Coupons = new RangeObservableCollection<Coupon>() { };
@@ -82,8 +83,8 @@ namespace Nindo.Mobile.ViewModels
                 {
                     Coupons[1].ComboboxItems.AddRange(brandItems);
                     Coupons[2].ComboboxItems.AddRange(categoryItems);
-                });
 
+                });
             }
         }
 
@@ -220,7 +221,11 @@ namespace Nindo.Mobile.ViewModels
                 IsBusy = true;
 
                 await Clipboard.SetTextAsync(CollectionViewSelectedItem.Code);
-                await Application.Current.MainPage.DisplayAlert("", "Code has been Copied", "UwU");
+                var openSite = await Application.Current.MainPage.DisplayAlert("", "Code has been Copied \n To Open Website Click UwU", "UwU", "Cancel");
+                if (openSite == true)
+                {
+                    await Browser.OpenAsync(CollectionViewSelectedItem.Brand.Url, BrowserLaunchMode.SystemPreferred);
+                }
             }
             finally
             {

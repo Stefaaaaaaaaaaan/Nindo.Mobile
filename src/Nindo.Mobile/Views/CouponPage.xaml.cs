@@ -27,11 +27,14 @@ namespace Nindo.Mobile.Views
 
             if (BindingContext is CouponViewModel vm && vm.Coupons.Any(m => !m.ComboboxItems.Any()))
             {
-                vm.LoadComboboxItemsAsync()
-                    .ContinueWith(t =>
-                    {
-                        if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);
-                    });
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    vm.LoadComboboxItemsAsync()
+                        .ContinueWith(t =>
+                        {
+                            if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);
+                        });
+                });
             }
         }
     }

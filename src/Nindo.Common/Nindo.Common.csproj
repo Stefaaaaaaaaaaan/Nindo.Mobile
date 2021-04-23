@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Syncfusion.Licensing" Version="18.4.0.48" />
-    <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="18.4.0.48" />
     <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="18.4.0.48" />
   </ItemGroup>
 

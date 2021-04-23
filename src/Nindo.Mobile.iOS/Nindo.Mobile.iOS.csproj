@@ -151,9 +151,6 @@
     <PackageReference Include="Syncfusion.Licensing">
       <Version>18.4.0.48</Version>
     </PackageReference>
-    <PackageReference Include="Syncfusion.Xamarin.Buttons">
-      <Version>18.4.0.48</Version>
-    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfComboBox">
       <Version>18.4.0.48</Version>
     </PackageReference>
